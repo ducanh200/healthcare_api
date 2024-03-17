@@ -1,22 +1,23 @@
 package com.example.healthcare_api.entities;
 
-
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
-@Table(name = "doctors")
-public class Doctor {
+@Table(name = "patients")
+public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String email;
     private String password;
-    private String thumbnail;
+    private String gender;
+    private Date birthday;
     private String phonenumber;
-    private Integer clinicId;
-    private Integer departmentId;
+    private String address;
+    private String city;
 
     public Long getId() {
         return id;
@@ -50,12 +51,20 @@ public class Doctor {
         this.password = password;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
+    public String getGender() {
+        return gender;
     }
 
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getPhonenumber() {
@@ -66,19 +75,19 @@ public class Doctor {
         this.phonenumber = phonenumber;
     }
 
-    public Integer getClinicId() {
-        return clinicId;
+    public String getAddress() {
+        return address;
     }
 
-    public void setClinicId(Integer clinicId) {
-        this.clinicId = clinicId;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public Integer getDepartmentId() {
-        return departmentId;
+    public String getCity() {
+        return city;
     }
 
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
+    public void setCity(String city) {
+        this.city = city;
     }
 }

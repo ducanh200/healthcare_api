@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/doctors")
+@RequestMapping("/api/v2/doctors")
 public class DoctorController {
     @Autowired
     private DoctorService doctorService;
@@ -23,13 +23,14 @@ public class DoctorController {
         return doctorService.createDoctor(doctor);
     }
 
-    @PutMapping("/{id}")
-    public Doctor updateDoctor(@PathVariable Long id, @RequestBody Doctor doctor){
-        return doctorService.updateDoctor(id,doctor);
-    }
 
     @GetMapping("/search")
     public List<Doctor> searchDoctorByname(String name){
         return doctorService.searchDoctor(name);
+    }
+
+    @GetMapping("/{id}")
+    public Doctor getDoctorById(@PathVariable Long id){
+        return doctorService.getById(id);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DoctorService {
@@ -22,23 +23,17 @@ public class DoctorService {
         return doctorRepositoty.save(doctor);
     }
 
-    public Doctor updateDoctor(@PathVariable Long id, @RequestBody Doctor doctor){
-        return doctorRepositoty.findById(id).map(d->{
-            d.setName(doctor.getName());
-            d.setThumbnail(doctor.getThumbnail());
-            d.setPhonenumber(doctor.getPhonenumber());
-            d.setClinicId(doctor.getClinicId());
-            d.setDepartmentId(doctor.getDepartmentId());
-            d.setUserId(doctor.getUserId());
-            return doctorRepositoty.save(doctor);
-        }).orElseGet(()->{
-            doctor.setId(id);
-            return doctorRepositoty.save(doctor);
-        });
-    }
 
     public List<Doctor> searchDoctor(String name){
         return doctorRepositoty.findAllByNameContaining(name);
     }
 
+    public Doctor getById(@PathVariable Long id){
+        Optional<Doctor> doctorOptional = doctorRepositoty.findById(id);
+        try {
+            return doctorOptional.get();
+        }catch (Exception e){
+            return null;
+        }
+    }
 }

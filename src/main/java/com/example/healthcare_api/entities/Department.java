@@ -11,6 +11,7 @@ public class Department {
     private String name;
     private Double expense;
     private String description;
+    private String thumbnail;
 
     public Long getId() {
         return id;
@@ -42,5 +43,13 @@ public class Department {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }
