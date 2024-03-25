@@ -1,6 +1,7 @@
 package com.example.healthcare_api.controllers;
 
 
+import com.example.healthcare_api.dto.DepartmentDTO;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,13 @@ public class DepartmentController {
     }
 
     @PostMapping()
-    public Department createDepartment(@RequestBody Department department){
-        return departmentService.createDepartment(department);
+    public Department createDepartment(@RequestBody DepartmentDTO request){
+        return departmentService.createDepartment(request);
     }
 
     @PutMapping("/{id}")
-    public Department updateDepartment(@PathVariable Long id, @RequestBody Department department){
-        return departmentService.updateDepartment(id,department);
+    public Department updateDepartment(@PathVariable Long id, @RequestBody DepartmentDTO request){
+        return departmentService.updateDepartment(id,request);
     }
 
     @DeleteMapping("/{id}")

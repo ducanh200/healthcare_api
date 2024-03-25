@@ -1,5 +1,6 @@
 package com.example.healthcare_api.service;
 
+import com.example.healthcare_api.dto.DepartmentDTO;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.repositories.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +20,25 @@ public class DepartmentService {
         return departmentRepository.findAll();
     }
 
-    public Department createDepartment(@RequestBody Department department){
+    public Department createDepartment(@RequestBody DepartmentDTO request){
+        Department department = new Department();
+
+        department.setName(request.getName());
+        department.setExpense(request.getExpense());
+        department.setThumbnail(request.getThumbnail());
+        department.setDescription(request.getDescription());
+
         return  departmentRepository.save(department);
     }
-    public Department updateDepartment(@PathVariable Long id,@RequestBody Department department){
-        return departmentRepository.findById(id).map(d->{
-            d.setName(department.getName());
-            d.setExpense(department.getExpense());
-            d.setDescription(department.getDescription());
-            d.setThumbnail(department.getThumbnail());
-            return departmentRepository.save(department);
-        }).orElseGet(()->{
-             department.setId(id);
-             return departmentRepository.save(department);
-        });
+    public Department updateDepartment(@PathVariable Long id,@RequestBody DepartmentDTO request){
+        Department department = getById(id);
+
+        department.setName(request.getName());
+        department.setExpense(request.getExpense());
+        department.setThumbnail(request.getThumbnail());
+        department.setDescription(request.getDescription());
+
+        return departmentRepository.save(department);
     }
 
     public void deleteDepartment(@PathVariable Long id){
@@ -40,11 +46,6 @@ public class DepartmentService {
     }
 
     public Department getById(@PathVariable Long id) {
-        Optional<Department> departmentOptional = departmentRepository.findById(id);
-        try {
-            return departmentOptional.get();
-        } catch (Exception e) {
-            return null;
-        }
+        return departmentRepository.findById(id).orElseThrow(()-> new RuntimeException("Department not found"));
     }
 }

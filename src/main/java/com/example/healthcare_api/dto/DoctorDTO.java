@@ -1,33 +1,33 @@
-package com.example.healthcare_api.entities;
+package com.example.healthcare_api.dto;
 
+import jakarta.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "doctors")
-public class Doctor {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DoctorDTO {
     private Long id;
-
+    @Size(min = 3,message = "Doctor's name must be at least 3 characters")
     private String name;
     private String email;
+    @Size(min = 6,message = "Password must be at least 6 characters")
     private String password;
     private String thumbnail;
     private String phonenumber;
+    private Long clinicId;
+    private Long departmentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clinic_id")
-    @JsonIgnoreProperties("doctors")
-    private Clinic clinic;
+    public DoctorDTO(Long id, String name, String email, String password, String thumbnail, String phonenumber, Long clinicId, Long departmentId) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.thumbnail = thumbnail;
+        this.phonenumber = phonenumber;
+        this.clinicId = clinicId;
+        this.departmentId = departmentId;
+    }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
-    @JsonIgnoreProperties("doctors")
-    private Department department;
+    public DoctorDTO() {
 
-
+    }
 
     public Long getId() {
         return id;
@@ -77,19 +77,19 @@ public class Doctor {
         this.phonenumber = phonenumber;
     }
 
-    public Clinic getClinic() {
-        return clinic;
+    public Long getClinicId() {
+        return clinicId;
     }
 
-    public void setClinic(Clinic clinic) {
-        this.clinic = clinic;
+    public void setClinicId(Long clinicId) {
+        this.clinicId = clinicId;
     }
 
-    public Department getDepartment() {
-        return department;
+    public Long getDepartmentId() {
+        return departmentId;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
     }
 }

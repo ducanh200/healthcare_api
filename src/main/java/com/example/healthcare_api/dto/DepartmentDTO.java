@@ -1,27 +1,22 @@
-package com.example.healthcare_api.entities;
+package com.example.healthcare_api.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
-import java.util.List;
-
-@Entity
-@Table(name = "departments")
-public class Department {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DepartmentDTO {
     private Long id;
+    @Size(min = 3,message = "Department's name must be at least 3 characters")
     private String name;
     private Double expense;
     private String description;
     private String thumbnail;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "department")
-    private List<Clinic> clinics;
-    @JsonIgnore
-    @OneToMany(mappedBy = "department")
-    private List<Doctor> doctors;
+    public DepartmentDTO(Long id, String name, Double expense, String description, String thumbnail) {
+        this.id = id;
+        this.name = name;
+        this.expense = expense;
+        this.description = description;
+        this.thumbnail = thumbnail;
+    }
 
     public Long getId() {
         return id;
@@ -61,21 +56,5 @@ public class Department {
 
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
-    }
-
-    public List<Clinic> getClinics() {
-        return clinics;
-    }
-
-    public void setClinics(List<Clinic> clinics) {
-        this.clinics = clinics;
-    }
-
-    public List<Doctor> getDoctors() {
-        return doctors;
-    }
-
-    public void setDoctors(List<Doctor> doctors) {
-        this.doctors = doctors;
     }
 }

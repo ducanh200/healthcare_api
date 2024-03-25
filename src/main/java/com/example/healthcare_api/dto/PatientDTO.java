@@ -1,25 +1,35 @@
-package com.example.healthcare_api.entities;
+package com.example.healthcare_api.dto;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "patients")
-public class Patient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class PatientDTO {
 
+    private Long id;
+    @Size(min = 3,message = "Patient's name must be at least 3 characters")
     private String name;
     private String email;
+    @Size(min = 6,message = "Password must be at least 6 characters")
+
     private String password;
     private String gender;
     private Date birthday;
     private String phonenumber;
     private String address;
     private String city;
+
+    public PatientDTO(Long id, String name, String email, String password, String gender, Date birthday, String phonenumber, String address, String city) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.phonenumber = phonenumber;
+        this.address = address;
+        this.city = city;
+    }
 
     public Long getId() {
         return id;
