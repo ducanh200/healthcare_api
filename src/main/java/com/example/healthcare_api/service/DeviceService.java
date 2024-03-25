@@ -62,7 +62,6 @@ public class DeviceService {
         }
 
 
-        // Save the updated doctor
         Device updateDevice = deviceRepository.save(device);
 
         DeviceDTO deviceDTO = new DeviceDTO();

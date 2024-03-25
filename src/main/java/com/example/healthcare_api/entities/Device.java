@@ -14,7 +14,6 @@ public class Device {
     private Double expense;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
-    @JsonIgnoreProperties("doctors")
     private Department department;
 
     public Long getId() {

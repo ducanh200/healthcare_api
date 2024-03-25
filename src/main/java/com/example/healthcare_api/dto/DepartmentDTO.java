@@ -18,6 +18,9 @@ public class DepartmentDTO {
         this.thumbnail = thumbnail;
     }
 
+    public DepartmentDTO(Long id, String name) {
+    }
+
     public Long getId() {
         return id;
     }

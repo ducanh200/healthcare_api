@@ -21,6 +21,9 @@ public class Clinic {
     @OneToMany(mappedBy = "clinic")
     private List<Doctor> doctors;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "clinic")
+    private List<Schedule> schedules;
     public Long getId() {
         return id;
     }
@@ -51,5 +54,13 @@ public class Clinic {
 
     public void setDoctors(List<Doctor> doctors) {
         this.doctors = doctors;
+    }
+
+    public List<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
     }
 }

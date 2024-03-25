@@ -5,7 +5,6 @@ import com.example.healthcare_api.entities.Doctor;
 import com.example.healthcare_api.service.DoctorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,22 +29,26 @@ public class DoctorController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<DoctorDTO> updateDoctor(@PathVariable Long id, @Valid @RequestBody DoctorDTO request) {
-        DoctorDTO updatedDoctor = doctorService.update(id, request);
-        return ResponseEntity.ok().body(updatedDoctor);
+    public DoctorDTO updateDoctor(@PathVariable Long id, @RequestBody DoctorDTO request) {
+        return doctorService.update(id, request);
+    }
+
+    @PutMapping("/changePasswordById/{id}")
+    public DoctorDTO changePassword(@PathVariable Long id, @RequestBody DoctorDTO request) {
+        return doctorService.changePassword(id, request);
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<DoctorDTO> getDoctorById(@PathVariable("id") Long id) {
-        DoctorDTO doctorDTO = doctorService.findById(id);
-        return ResponseEntity.ok(doctorDTO);
-    }
-    @GetMapping("/byDepartment/{departmentId}")
-    public List<Doctor> getDoctorsByDepartmentId(@PathVariable Long departmentId) {
-        return doctorService.getDoctorsByDepartmentId(departmentId);
+    public DoctorDTO getDoctorById(@PathVariable Long id){
+        return doctorService.findById(id);
     }
 
+    @GetMapping("/department/{departmentId}")
+    public ResponseEntity<List<DoctorDTO>> getByDepartmentId(@PathVariable Long departmentId) {
+        List<DoctorDTO> doctorDTOs = doctorService.getByDepartmentId(departmentId);
+        return ResponseEntity.ok().body(doctorDTOs);
+    }
     @DeleteMapping("/{id}")
     public void deleteDoctor(@PathVariable Long id){
         doctorService.deleteDoctor(id);

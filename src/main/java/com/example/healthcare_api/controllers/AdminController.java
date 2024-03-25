@@ -1,5 +1,6 @@
 package com.example.healthcare_api.controllers;
 
+import com.example.healthcare_api.dto.AdminDTO;
 import com.example.healthcare_api.entities.Admin;
 import com.example.healthcare_api.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,13 @@ public class AdminController {
         return adminService.getAll();
     }
     @PostMapping()
-    public Admin createAdmin(@RequestBody Admin admin){
-        return adminService.createAdmin(admin);
+    public AdminDTO createAdmin(@RequestBody AdminDTO adminDTO){
+        return adminService.create(adminDTO);
+    }
+
+    @PutMapping("/{id}")
+    public AdminDTO updateAdmin(@PathVariable Long id,@RequestBody AdminDTO adminDTO){
+        return adminService.update(id, adminDTO);
     }
     @DeleteMapping("/{id}")
     public void deleteAdmin(@PathVariable Long id){

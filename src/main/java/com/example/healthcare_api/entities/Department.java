@@ -23,6 +23,10 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<Doctor> doctors;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "department")
+    private List<Device> devices;
+
     public Long getId() {
         return id;
     }
@@ -77,5 +81,13 @@ public class Department {
 
     public void setDoctors(List<Doctor> doctors) {
         this.doctors = doctors;
+    }
+
+    public List<Device> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(List<Device> devices) {
+        this.devices = devices;
     }
 }

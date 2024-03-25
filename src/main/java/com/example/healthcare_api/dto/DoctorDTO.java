@@ -14,7 +14,10 @@ public class DoctorDTO {
     private Long clinicId;
     private Long departmentId;
 
-    public DoctorDTO(Long id, String name, String email, String password, String thumbnail, String phonenumber, Long clinicId, Long departmentId) {
+    private ClinicDTO clinic;
+    private DepartmentDTO department;
+
+    public DoctorDTO(Long id, String name, String email, String password, String thumbnail, String phonenumber, Long clinicId, Long departmentId, ClinicDTO clinic, DepartmentDTO department) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -23,6 +26,8 @@ public class DoctorDTO {
         this.phonenumber = phonenumber;
         this.clinicId = clinicId;
         this.departmentId = departmentId;
+        this.clinic = clinic;
+        this.department = department;
     }
 
     public DoctorDTO() {
@@ -91,5 +96,21 @@ public class DoctorDTO {
 
     public void setDepartmentId(Long departmentId) {
         this.departmentId = departmentId;
+    }
+
+    public ClinicDTO getClinic() {
+        return clinic;
+    }
+
+    public void setClinic(ClinicDTO clinic) {
+        this.clinic = clinic;
+    }
+
+    public DepartmentDTO getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(DepartmentDTO department) {
+        this.department = department;
     }
 }

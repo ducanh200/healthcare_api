@@ -1,5 +1,6 @@
 package com.example.healthcare_api.repositories;
 
+import com.example.healthcare_api.dto.ClinicDTO;
 import com.example.healthcare_api.entities.Clinic;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

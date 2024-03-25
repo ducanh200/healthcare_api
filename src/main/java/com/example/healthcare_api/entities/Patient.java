@@ -1,9 +1,11 @@
 package com.example.healthcare_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "patients")
@@ -20,6 +22,10 @@ public class Patient {
     private String phonenumber;
     private String address;
     private String city;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "patient")
+    private List<Booking> bookings;
 
     public Long getId() {
         return id;
@@ -91,5 +97,13 @@ public class Patient {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
     }
 }
