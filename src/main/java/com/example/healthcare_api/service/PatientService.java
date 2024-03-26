@@ -1,5 +1,6 @@
 package com.example.healthcare_api.service;
 
+import com.example.healthcare_api.dto.PatientDTO;
 import com.example.healthcare_api.entities.Patient;
 import com.example.healthcare_api.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,33 +20,36 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public Patient createPatient(@RequestBody Patient patient){
+    public Patient createPatient(@RequestBody PatientDTO request){
+        Patient patient = new Patient();
+        patient.setName(request.getName());
+        patient.setEmail(request.getEmail());
+        patient.setPassword(request.getPassword());
+        patient.setGender(request.getGender());
+        patient.setBirthday(request.getBirthday());
+        patient.setPhonenumber(request.getPhonenumber());
+        patient.setAddress(request.getAddress());
+        patient.setCity(request.getCity());
+
         return patientRepository.save(patient);
     }
 
-    public Patient updatePatient(Long id, Patient patient) {
-        Optional<Patient> existingPatientOptional = patientRepository.findById(id);
-        if (existingPatientOptional.isPresent()) {
-            Patient existingPatient = existingPatientOptional.get();
+    public Patient updatePatient(Long id, PatientDTO request) {
+        Patient patient = getById(id);
 
-            patient.setEmail(existingPatient.getEmail());
-            patient.setPassword(existingPatient.getPassword());
+        patient.setName(request.getName());
+        patient.setGender(request.getGender());
+        patient.setBirthday(request.getBirthday());
+        patient.setPhonenumber(request.getPhonenumber());
+        patient.setAddress(request.getAddress());
+        patient.setCity(request.getCity());
 
-            existingPatient.setName(patient.getName());
-            existingPatient.setGender(patient.getGender());
-            existingPatient.setBirthday(patient.getBirthday());
-            existingPatient.setPhonenumber(patient.getPhonenumber());
-            existingPatient.setAddress(patient.getAddress());
-            existingPatient.setCity(patient.getCity());
-
-            return patientRepository.save(existingPatient);
-        } else {
-            return null;
-        }
+        return patientRepository.save(patient);
     }
 
     public void deletePatient(@PathVariable Long id){
         patientRepository.deleteById(id);
+        throw new RuntimeException("Patient has been deleted");
     }
 
     public List<Patient> findByName(String name){
@@ -53,11 +57,7 @@ public class PatientService {
     }
 
     public Patient getById(Long id){
-        Optional<Patient> patientOptional = patientRepository.findById(id);
-        try {
-            return patientOptional.get();
-        }catch (Exception e){
-            return null;
-        }
+        return patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Patient not found"));
     }
 }

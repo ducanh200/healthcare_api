@@ -1,7 +1,10 @@
 package com.example.healthcare_api.controllers;
 
+import com.example.healthcare_api.dto.DoctorDTO;
+import com.example.healthcare_api.dto.PatientDTO;
 import com.example.healthcare_api.entities.Patient;
 import com.example.healthcare_api.service.PatientService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +22,13 @@ public class PatientController {
     }
 
     @PostMapping()
-    public Patient createPatient(@RequestBody Patient patient){
-        return patientService.createPatient(patient);
+    public Patient createPatient(@RequestBody @Valid PatientDTO request){
+        return patientService.createPatient(request);
     }
 
     @PutMapping("/{id}")
-    public Patient updatePatient(@PathVariable Long id,@RequestBody Patient patient){
-        return patientService.updatePatient(id, patient);
+    public Patient updatePatient(@PathVariable Long id,@RequestBody PatientDTO request){
+        return patientService.updatePatient(id, request);
     }
 
     @DeleteMapping("/{id}")

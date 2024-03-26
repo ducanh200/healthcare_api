@@ -1,17 +1,21 @@
-package com.example.healthcare_api.entities;
+package com.example.healthcare_api.dto;
 
-import jakarta.persistence.*;
-
-
-@Entity
-@Table(name = "admins")
-public class Admin {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AdminDTO {
     private Long id;
     private String name;
     private String email;
     private String password;
+
+    public AdminDTO(Long id, String name, String email, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
+    public AdminDTO() {
+
+    }
 
     public Long getId() {
         return id;

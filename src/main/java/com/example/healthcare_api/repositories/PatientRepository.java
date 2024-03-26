@@ -9,5 +9,4 @@ import java.util.Optional;
 public interface PatientRepository extends JpaRepository<Patient,Long> {
     List<Patient> findAllByNameContaining(String name);
 
-    Optional<Patient> findById(Long id);
 }

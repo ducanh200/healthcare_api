@@ -1,6 +1,7 @@
 package com.example.healthcare_api.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -15,8 +16,18 @@ public class Doctor {
     private String password;
     private String thumbnail;
     private String phonenumber;
-    private Integer clinicId;
-    private Integer departmentId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "clinic_id")
+    @JsonIgnoreProperties("doctors")
+    private Clinic clinic;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    @JsonIgnoreProperties("doctors")
+    private Department department;
+
+
 
     public Long getId() {
         return id;
@@ -66,19 +77,19 @@ public class Doctor {
         this.phonenumber = phonenumber;
     }
 
-    public Integer getClinicId() {
-        return clinicId;
+    public Clinic getClinic() {
+        return clinic;
     }
 
-    public void setClinicId(Integer clinicId) {
-        this.clinicId = clinicId;
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
     }
 
-    public Integer getDepartmentId() {
-        return departmentId;
+    public Department getDepartment() {
+        return department;
     }
 
-    public void setDepartmentId(Integer departmentId) {
-        this.departmentId = departmentId;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

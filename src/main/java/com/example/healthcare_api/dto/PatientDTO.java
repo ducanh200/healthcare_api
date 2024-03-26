@@ -1,21 +1,17 @@
-package com.example.healthcare_api.entities;
+package com.example.healthcare_api.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
 import java.util.Date;
-import java.util.List;
 
-@Entity
-@Table(name = "patients")
-public class Patient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PatientDTO {
+
     private Long id;
-
+    @Size(min = 3,message = "Patient's name must be at least 3 characters")
     private String name;
     private String email;
+    @Size(min = 6,message = "Password must be at least 6 characters")
+
     private String password;
     private String gender;
     private Date birthday;
@@ -23,9 +19,17 @@ public class Patient {
     private String address;
     private String city;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "patient")
-    private List<Booking> bookings;
+    public PatientDTO(Long id, String name, String email, String password, String gender, Date birthday, String phonenumber, String address, String city) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.phonenumber = phonenumber;
+        this.address = address;
+        this.city = city;
+    }
 
     public Long getId() {
         return id;
@@ -97,13 +101,5 @@ public class Patient {
 
     public void setCity(String city) {
         this.city = city;
-    }
-
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
     }
 }
