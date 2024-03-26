@@ -31,6 +31,11 @@ public class PatientController {
         return patientService.updatePatient(id, request);
     }
 
+    @PutMapping("/changePasswordById/{id}")
+    public Patient changePassword(@PathVariable Long id,@RequestBody PatientDTO request){
+        return patientService.changePassword(id,request);
+    }
+
     @DeleteMapping("/{id}")
     public void deletePatient(@PathVariable Long id){
         patientService.deletePatient(id);

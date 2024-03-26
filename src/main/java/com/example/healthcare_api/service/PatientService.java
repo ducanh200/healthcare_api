@@ -4,6 +4,8 @@ import com.example.healthcare_api.dto.PatientDTO;
 import com.example.healthcare_api.entities.Patient;
 import com.example.healthcare_api.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,10 +23,11 @@ public class PatientService {
     }
 
     public Patient createPatient(@RequestBody PatientDTO request){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         Patient patient = new Patient();
         patient.setName(request.getName());
         patient.setEmail(request.getEmail());
-        patient.setPassword(request.getPassword());
+        patient.setPassword(passwordEncoder.encode(request.getPassword()));
         patient.setGender(request.getGender());
         patient.setBirthday(request.getBirthday());
         patient.setPhonenumber(request.getPhonenumber());
@@ -43,6 +46,16 @@ public class PatientService {
         patient.setPhonenumber(request.getPhonenumber());
         patient.setAddress(request.getAddress());
         patient.setCity(request.getCity());
+
+        return patientRepository.save(patient);
+    }
+
+    public Patient changePassword(@PathVariable Long id,@RequestBody PatientDTO request){
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+
+        Patient patient = getById(id);
+
+        patient.setPassword(passwordEncoder.encode(request.getPassword()));
 
         return patientRepository.save(patient);
     }
