@@ -20,8 +20,8 @@ public class Schedule {
     @JoinColumn(name = "clinic_id")
     private Clinic clinic;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "schedule")
+    @JsonIgnore
     private List<Booking> bookings;
 
 

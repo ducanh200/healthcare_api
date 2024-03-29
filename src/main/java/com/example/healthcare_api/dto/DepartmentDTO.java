@@ -21,6 +21,10 @@ public class DepartmentDTO {
     public DepartmentDTO(Long id, String name) {
     }
 
+    public DepartmentDTO() {
+
+    }
+
     public Long getId() {
         return id;
     }

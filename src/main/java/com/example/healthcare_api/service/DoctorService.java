@@ -67,6 +67,17 @@ public class DoctorService {
         savedDoctorDTO.setPhonenumber(savedDoctor.getPhonenumber());
         savedDoctorDTO.setClinicId(savedDoctor.getClinic().getId()); // Set clinicId
         savedDoctorDTO.setDepartmentId(savedDoctor.getDepartment().getId()); // Set departmentId
+        ClinicDTO clinicDTO = new ClinicDTO();
+        clinicDTO.setId(savedDoctor.getClinic().getId());
+        clinicDTO.setName(savedDoctor.getClinic().getName());
+
+        savedDoctorDTO.setClinic(clinicDTO);
+
+        DepartmentDTO departmentDTO = new DepartmentDTO();
+        departmentDTO.setId(savedDoctor.getDepartment().getId());
+        departmentDTO.setExpense(savedDoctor.getDepartment().getExpense());
+        departmentDTO.setName(savedDoctor.getDepartment().getName());
+        savedDoctorDTO.setDepartment(departmentDTO);
 
         return savedDoctorDTO;
     }

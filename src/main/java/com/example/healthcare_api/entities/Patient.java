@@ -23,8 +23,8 @@ public class Patient {
     private String address;
     private String city;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "patient")
+    @JsonIgnore
     private List<Booking> bookings;
 
     public Long getId() {

@@ -11,6 +11,10 @@ public class ClinicDTO {
         this.departmentId = departmentId;
     }
 
+    public ClinicDTO() {
+
+    }
+
     public Long getId() {
         return id;
     }
