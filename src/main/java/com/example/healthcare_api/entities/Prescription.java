@@ -1,7 +1,9 @@
 package com.example.healthcare_api.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "prescription")
 public class Prescription {

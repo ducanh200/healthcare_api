@@ -2,9 +2,10 @@ package com.example.healthcare_api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
-
+@Data
 @Entity
 @Table(name = "clinics")
 public class Clinic {
@@ -24,43 +25,4 @@ public class Clinic {
     @JsonIgnore
     @OneToMany(mappedBy = "clinic")
     private List<Schedule> schedules;
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public List<Doctor> getDoctors() {
-        return doctors;
-    }
-
-    public void setDoctors(List<Doctor> doctors) {
-        this.doctors = doctors;
-    }
-
-    public List<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(List<Schedule> schedules) {
-        this.schedules = schedules;
-    }
 }

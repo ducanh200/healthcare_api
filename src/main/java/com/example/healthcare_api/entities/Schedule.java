@@ -3,11 +3,12 @@ package com.example.healthcare_api.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.sql.Date;
 import java.util.List;
 
-
+@Data
 @Entity
 @Table(name = "schedules")
 public class Schedule {
@@ -24,44 +25,4 @@ public class Schedule {
     @JsonIgnore
     private List<Booking> bookings;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Clinic getClinic() {
-        return clinic;
-    }
-
-    public void setClinic(Clinic clinic) {
-        this.clinic = clinic;
-    }
-
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
-    }
 }

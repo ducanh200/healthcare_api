@@ -1,5 +1,6 @@
 package com.example.healthcare_api.controllers;
 
+import com.example.healthcare_api.dto.BookingDTO;
 import com.example.healthcare_api.entities.Booking;
 import com.example.healthcare_api.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ public class BookingController {
     private BookingService bookingService;
 
     @GetMapping()
-    public List<Booking> getAllBooking(){
+    public List<BookingDTO> getAllBooking(){
         return bookingService.getAll();
     }
 }

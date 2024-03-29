@@ -2,7 +2,9 @@ package com.example.healthcare_api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "results")
 public class Result {
