@@ -1,28 +1,25 @@
 package com.example.healthcare_api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 @Data
 @Entity
-@Table(name = "schedules")
-public class Schedule {
+@Table(name = "shifts")
+public class Shift {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date time;
-    private Integer status;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clinic_id")
-    private Clinic clinic;
 
-    @OneToMany(mappedBy = "schedule")
+    private Time time;
+    private String session;
+
     @JsonIgnore
+    @OneToMany(mappedBy = "shift")
     private List<Booking> bookings;
 
 }

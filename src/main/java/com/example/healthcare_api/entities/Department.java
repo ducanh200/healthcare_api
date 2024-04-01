@@ -12,14 +12,18 @@ public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private Double expense;
+
+    @Column(name = "max_booking")
+    private Integer maxBooking;
+
     private String description;
+
     private String thumbnail;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "department")
-    private List<Clinic> clinics;
     @JsonIgnore
     @OneToMany(mappedBy = "department")
     private List<Doctor> doctors;
@@ -27,5 +31,10 @@ public class Department {
     @JsonIgnore
     @OneToMany(mappedBy = "department")
     private List<Device> devices;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "department")
+    private List<Booking> bookings;
+
 
 }

@@ -4,15 +4,22 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.sql.Timestamp;
 @Data
 @Entity
-@Table(name = "records")
-public class Records {
+@Table(name = "tests")
+public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String diagnose;
+    private String thumbnail;
+    @Column(name = "test_at")
+    private Timestamp testAt;
+    private Double expense;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "patient_id")
-    @JsonIgnoreProperties("records")
-    private Patient patient;
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 }

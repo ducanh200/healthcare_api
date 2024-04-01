@@ -12,13 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v2/doctors")
+@RequestMapping("/api/v3/doctors")
 public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
     @GetMapping()
-    public List<Doctor> getAllDoctor(){
+    public List<DoctorDTO> getAllDoctor(){
         return doctorService.getAll();
     }
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v2/devices")
+@RequestMapping("/api/v3/devices")
 public class DeviceController {
     @Autowired
     private DeviceService deviceService;

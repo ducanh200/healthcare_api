@@ -13,10 +13,8 @@ public class DoctorDTO {
     private String password;
     private String thumbnail;
     private String phonenumber;
-    private Long clinicId;
     private Long departmentId;
 
-    private ClinicDTO clinic;
     private DepartmentDTO department;
 
 }

@@ -1,11 +1,8 @@
 package com.example.healthcare_api.service;
 
 import com.example.healthcare_api.dto.DeviceDTO;
-import com.example.healthcare_api.dto.DoctorDTO;
-import com.example.healthcare_api.entities.Clinic;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.entities.Device;
-import com.example.healthcare_api.entities.Doctor;
 import com.example.healthcare_api.repositories.DepartmentRepository;
 import com.example.healthcare_api.repositories.DeviceRepository;
 import org.springframework.beans.factory.annotation.Autowired;

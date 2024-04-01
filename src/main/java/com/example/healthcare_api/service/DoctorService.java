@@ -1,14 +1,9 @@
 package com.example.healthcare_api.service;
 
-import com.example.healthcare_api.dto.ClinicDTO;
 import com.example.healthcare_api.dto.DepartmentDTO;
 import com.example.healthcare_api.dto.DoctorDTO;
-import com.example.healthcare_api.dto.PatientDTO;
-import com.example.healthcare_api.entities.Clinic;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.entities.Doctor;
-import com.example.healthcare_api.entities.Patient;
-import com.example.healthcare_api.repositories.ClinicRepository;
 import com.example.healthcare_api.repositories.DepartmentRepository;
 import com.example.healthcare_api.repositories.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class DoctorService {
@@ -29,18 +22,40 @@ public class DoctorService {
     private DoctorRepository doctorRepository;
     @Autowired
     private DepartmentRepository departmentRepository;
-    @Autowired
-    private ClinicRepository clinicRepository;
 
 
-    public List<Doctor> getAll(){
-        return doctorRepository.findAllWithClinicAndDepartment();
+
+    public List<DoctorDTO> getAll() {
+        List<Doctor> doctors = doctorRepository.findAll();
+        List<DoctorDTO> doctorDTOs = new ArrayList<>();
+
+        for (Doctor doctor : doctors) {
+            DoctorDTO doctorDTO = new DoctorDTO();
+            doctorDTO.setId(doctor.getId());
+            doctorDTO.setName(doctor.getName());
+            doctorDTO.setEmail(doctor.getEmail());
+            doctorDTO.setPassword(doctor.getPassword());
+            doctorDTO.setThumbnail(doctor.getThumbnail());
+            doctorDTO.setPhonenumber(doctor.getPhonenumber());
+            doctorDTO.setDepartmentId(doctor.getDepartment().getId());
+
+            DepartmentDTO departmentDTO = new DepartmentDTO();
+            departmentDTO.setId(doctor.getDepartment().getId());
+            departmentDTO.setExpense(doctor.getDepartment().getExpense());
+            departmentDTO.setName(doctor.getDepartment().getName());
+            departmentDTO.setMaxBooking(doctor.getDepartment().getMaxBooking());
+            departmentDTO.setDescription(doctor.getDepartment().getDescription());
+            departmentDTO.setThumbnail(doctor.getDepartment().getThumbnail());
+
+            doctorDTO.setDepartment(departmentDTO);
+
+            doctorDTOs.add(doctorDTO);
+        }
+
+        return doctorDTOs;
     }
 
     public DoctorDTO createDoctor(DoctorDTO request) {
-        Clinic clinic = clinicRepository.findById(request.getClinicId())
-                .orElseThrow(() -> new IllegalArgumentException("Clinic not found with id: " + request.getClinicId()));
-
         Department department = departmentRepository.findById(request.getDepartmentId())
                 .orElseThrow(() -> new IllegalArgumentException("Department not found with id: " + request.getDepartmentId()));
 
@@ -52,7 +67,6 @@ public class DoctorService {
         doctor.setPassword(passwordEncoder.encode(request.getPassword()));
         doctor.setThumbnail(request.getThumbnail());
         doctor.setPhonenumber(request.getPhonenumber());
-        doctor.setClinic(clinic);
         doctor.setDepartment(department);
 
         Doctor savedDoctor = doctorRepository.save(doctor);
@@ -65,20 +79,13 @@ public class DoctorService {
         savedDoctorDTO.setPassword(passwordEncoder.encode(savedDoctor.getPassword()));
         savedDoctorDTO.setThumbnail(savedDoctor.getThumbnail());
         savedDoctorDTO.setPhonenumber(savedDoctor.getPhonenumber());
-        savedDoctorDTO.setClinicId(savedDoctor.getClinic().getId()); // Set clinicId
         savedDoctorDTO.setDepartmentId(savedDoctor.getDepartment().getId()); // Set departmentId
-
-        ClinicDTO clinicDTO = new ClinicDTO();
-        clinicDTO.setId(savedDoctor.getClinic().getId());
-        clinicDTO.setName(savedDoctor.getClinic().getName());
-        clinicDTO.setDepartmentId(savedDoctor.getClinic().getDepartment().getId());
-
-        savedDoctorDTO.setClinic(clinicDTO);
 
         DepartmentDTO departmentDTO = new DepartmentDTO();
         departmentDTO.setId(savedDoctor.getDepartment().getId());
         departmentDTO.setExpense(savedDoctor.getDepartment().getExpense());
         departmentDTO.setName(savedDoctor.getDepartment().getName());
+        departmentDTO.setMaxBooking(savedDoctor.getDepartment().getMaxBooking());
         departmentDTO.setDescription(savedDoctor.getDepartment().getDescription());
         departmentDTO.setThumbnail(savedDoctor.getDepartment().getThumbnail());
 
@@ -94,12 +101,6 @@ public class DoctorService {
         doctor.setName(request.getName());
         doctor.setThumbnail(request.getThumbnail());
         doctor.setPhonenumber(request.getPhonenumber());
-
-        if (!doctor.getClinic().getId().equals(request.getClinicId())) {
-            Clinic newClinic = clinicRepository.findById(request.getClinicId())
-                    .orElseThrow(() -> new RuntimeException("Clinic not found with id: " + request.getClinicId()));
-            doctor.setClinic(newClinic);
-        }
 
         if (!doctor.getDepartment().getId().equals(request.getDepartmentId())) {
             Department newDepartment = departmentRepository.findById(request.getDepartmentId())
@@ -118,7 +119,6 @@ public class DoctorService {
         doctorDTO.setPassword(updateDoctor.getPassword());
         doctorDTO.setThumbnail(updateDoctor.getThumbnail());
         doctorDTO.setPhonenumber(updateDoctor.getPhonenumber());
-        doctorDTO.setClinicId(updateDoctor.getClinic().getId());
         doctorDTO.setDepartmentId(updateDoctor.getDepartment().getId());
 
         return doctorDTO;
@@ -140,7 +140,6 @@ public class DoctorService {
         doctorDTO.setPassword(passwordEncoder.encode(updateDoctor.getPassword()));
         doctorDTO.setThumbnail(updateDoctor.getThumbnail());
         doctorDTO.setPhonenumber(updateDoctor.getPhonenumber());
-        doctorDTO.setClinicId(updateDoctor.getClinic().getId());
         doctorDTO.setDepartmentId(updateDoctor.getDepartment().getId());
 
         return doctorDTO;
@@ -158,12 +157,16 @@ public class DoctorService {
         doctorDTO.setPassword(doctor.getPassword());
         doctorDTO.setThumbnail(doctor.getThumbnail());
         doctorDTO.setPhonenumber(doctor.getPhonenumber());
-        doctorDTO.setClinicId(doctor.getClinic().getId());
         doctorDTO.setDepartmentId(doctor.getDepartment().getId());
 
-        // Set ClinicDTO and DepartmentDTO based on Doctor's Clinic and Department
-        doctorDTO.setClinic(new ClinicDTO(doctor.getClinic().getId(), doctor.getClinic().getName(), doctor.getClinic().getDepartment().getId()));
-        doctorDTO.setDepartment(new DepartmentDTO(doctor.getDepartment().getId(), doctor.getDepartment().getName(), doctor.getDepartment().getExpense(), doctor.getDepartment().getDescription(), doctor.getDepartment().getThumbnail()));
+
+        DepartmentDTO departmentDTO = new DepartmentDTO();
+        departmentDTO.setId(doctor.getId());
+        departmentDTO.setName(doctor.getName());
+        departmentDTO.setExpense(doctor.getDepartment().getExpense());
+        departmentDTO.setDescription(doctor.getDepartment().getDescription());
+        departmentDTO.setThumbnail(doctor.getDepartment().getThumbnail());
+        doctorDTO.setDepartment(departmentDTO);
 
         return doctorDTO;
     }
@@ -180,13 +183,15 @@ public class DoctorService {
             doctorDTO.setPassword(doctor.getPassword());
             doctorDTO.setThumbnail(doctor.getThumbnail());
             doctorDTO.setPhonenumber(doctor.getPhonenumber());
-            doctorDTO.setClinicId(doctor.getClinic().getId());
             doctorDTO.setDepartmentId(doctor.getDepartment().getId());
 
-            // Set ClinicDTO and DepartmentDTO based on Doctor's Clinic and Department
-            ClinicDTO clinicDTO = new ClinicDTO(doctor.getClinic().getId(), doctor.getClinic().getName(), doctor.getClinic().getDepartment().getId());
-            DepartmentDTO departmentDTO = new DepartmentDTO(doctor.getDepartment().getId(), doctor.getDepartment().getName(), doctor.getDepartment().getExpense(), doctor.getDepartment().getDescription(), doctor.getDepartment().getThumbnail());
-            doctorDTO.setClinic(clinicDTO);
+            DepartmentDTO departmentDTO = new DepartmentDTO();
+            departmentDTO.setId(doctor.getId());
+            departmentDTO.setName(doctor.getName());
+            departmentDTO.setExpense(doctor.getDepartment().getExpense());
+            departmentDTO.setDescription(doctor.getDepartment().getDescription());
+            departmentDTO.setThumbnail(doctor.getDepartment().getThumbnail());
+
             doctorDTO.setDepartment(departmentDTO);
 
             doctorDTOs.add(doctorDTO);

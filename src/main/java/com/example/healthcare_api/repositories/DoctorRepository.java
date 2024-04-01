@@ -10,12 +10,7 @@ import java.util.Optional;
 
 public interface DoctorRepository extends JpaRepository<Doctor,Long> {
 
-    @Query("SELECT DISTINCT d FROM Doctor d JOIN FETCH d.clinic c JOIN FETCH d.department")
-    List<Doctor> findAllWithClinicAndDepartment();
-
-
-    @Query("SELECT DISTINCT d FROM Doctor d JOIN FETCH d.clinic c JOIN FETCH d.department WHERE d.department.id = :departmentId")
+    @Query("SELECT DISTINCT d FROM Doctor d JOIN FETCH d.department WHERE d.department.id = :departmentId")
     List<Doctor> findByDepartmentId(@Param("departmentId") Long departmentId);
-
 
 }
