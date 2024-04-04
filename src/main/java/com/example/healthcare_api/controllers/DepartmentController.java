@@ -26,11 +26,13 @@ public class DepartmentController {
     @PostMapping(consumes = {"multipart/form-data"})
     public Department createDepartment(@RequestParam("name") String name,
                                        @RequestParam("expense") Double expense,
+                                       @RequestParam("maxBooking") Integer maxBooking,
                                        @RequestParam("description") String description,
                                        @RequestParam("thumbnail") MultipartFile file) {
         DepartmentDTO request = new DepartmentDTO();
         request.setName(name);
         request.setExpense(expense);
+        request.setMaxBooking(maxBooking);
         request.setDescription(description);
 
         return departmentService.createDepartment(request, file);

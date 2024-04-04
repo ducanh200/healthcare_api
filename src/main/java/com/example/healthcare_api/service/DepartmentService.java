@@ -27,6 +27,7 @@ public class DepartmentService {
 
         department.setName(request.getName());
         department.setExpense(request.getExpense());
+        department.setMaxBooking(request.getMaxBooking());
         department.setThumbnail(request.getThumbnail());
         department.setDescription(request.getDescription());
 
@@ -42,6 +43,7 @@ public class DepartmentService {
 
         department.setName(request.getName());
         department.setExpense(request.getExpense());
+        department.setMaxBooking(request.getMaxBooking());
         department.setThumbnail(request.getThumbnail());
         department.setDescription(request.getDescription());
 
