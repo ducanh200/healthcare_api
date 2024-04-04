@@ -22,4 +22,12 @@ public class Test {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "device_id")
+    private Device device;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "result_id")
+    private Result result;
 }

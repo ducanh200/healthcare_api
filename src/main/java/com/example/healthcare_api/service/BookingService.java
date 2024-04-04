@@ -8,14 +8,13 @@ import com.example.healthcare_api.entities.Booking;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.entities.Patient;
 import com.example.healthcare_api.entities.Shift;
-import com.example.healthcare_api.repositories.BookingRespository;
+import com.example.healthcare_api.repositories.BookingRepository;
 import com.example.healthcare_api.repositories.DepartmentRepository;
 import com.example.healthcare_api.repositories.PatientRepository;
 import com.example.healthcare_api.repositories.ShiftRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ import java.util.List;
 @Service
 public class BookingService {
     @Autowired
-    private BookingRespository bookingRespository;
+    private BookingRepository bookingRespository;
 
     @Autowired
     private PatientRepository patientRepository;

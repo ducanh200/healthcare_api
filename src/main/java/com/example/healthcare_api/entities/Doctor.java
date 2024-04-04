@@ -32,5 +32,9 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor")
     private List<Test> tests;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor")
+    private List<Prescription> prescriptions;
+
 
 }
