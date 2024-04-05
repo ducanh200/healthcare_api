@@ -5,6 +5,7 @@ import com.example.healthcare_api.dto.DepartmentDTO;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,10 +39,11 @@ public class DepartmentController {
         return departmentService.createDepartment(request, file);
     }
 
-    @PutMapping("/{id}")
-    public Department updateDepartment(@PathVariable Long id, @RequestBody DepartmentDTO request, @RequestParam(value = "file", required = false) MultipartFile file) {
+    @PutMapping(consumes = {"multipart/form-data"} , value = "/{id}")
+    public Department updateDepartment(@PathVariable Long id, @RequestBody DepartmentDTO request, @RequestParam(value = "file" ) MultipartFile file) {
         return departmentService.updateDepartment(id, request, file);
     }
+    @CrossOrigin(origins = "*")
 
     @DeleteMapping("/{id}")
     public void deleteDepartment(@PathVariable Long id){
