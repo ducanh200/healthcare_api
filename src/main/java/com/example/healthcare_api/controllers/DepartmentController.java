@@ -1,16 +1,16 @@
 package com.example.healthcare_api.controllers;
 
-
 import com.example.healthcare_api.dto.DepartmentDTO;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.List;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.io.IOException;
 @RestController
 @RequestMapping("/api/v3/departments")
 public class DepartmentController {
@@ -36,13 +36,41 @@ public class DepartmentController {
         request.setMaxBooking(maxBooking);
         request.setDescription(description);
 
-        return departmentService.createDepartment(request, file);
+        try {
+            return departmentService.createDepartment(request, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @PutMapping(consumes = {"multipart/form-data"} , value = "/{id}")
-    public Department updateDepartment(@PathVariable Long id, @RequestBody DepartmentDTO request, @RequestParam(value = "file" ) MultipartFile file) {
-        return departmentService.updateDepartment(id, request, file);
+    @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
+    public Department updateDepartment(@PathVariable Long id,
+                                       @RequestParam("name") String name,
+                                       @RequestParam("expense") Double expense,
+                                       @RequestParam("maxBooking") Integer maxBooking,
+                                       @RequestParam("description") String description,
+                                       @RequestParam(value = "thumbnail", required = false) MultipartFile file) {
+        DepartmentDTO request = new DepartmentDTO();
+        request.setName(name);
+        request.setExpense(expense);
+        request.setMaxBooking(maxBooking);
+        request.setDescription(description);
+
+        try {
+            Department updatedDepartment = departmentService.updateDepartment(id, request, file);
+            // Kiểm tra xem phòng ban đã được cập nhật thành công hay không
+            if (updatedDepartment != null) {
+                return updatedDepartment; // Trả về phòng ban đã được cập nhật
+            } else {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found"); // Nếu không tìm thấy phòng ban
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", e); // Lỗi xử lý yêu cầu
+        }
     }
+
     @CrossOrigin(origins = "*")
 
     @DeleteMapping("/{id}")

@@ -3,16 +3,25 @@ package com.example.healthcare_api.service;
 import com.example.healthcare_api.dto.DepartmentDTO;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.repositories.DepartmentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class DepartmentService {
+    @Value("${server.host}")
+    private String serverHost;
+    @Value("${server.port}")
+    private String serverPort;
     @Autowired
     private DepartmentRepository departmentRepository;
 
@@ -20,36 +29,48 @@ public class DepartmentService {
         return departmentRepository.findAll();
     }
 
-    public Department createDepartment(DepartmentDTO request, MultipartFile file) {
+    public Department createDepartment(DepartmentDTO request, MultipartFile file) throws IOException {
         Department department = new Department();
-
         department.setName(request.getName());
         department.setExpense(request.getExpense());
         department.setMaxBooking(request.getMaxBooking());
-        department.setThumbnail(request.getThumbnail());
         department.setDescription(request.getDescription());
 
-            String fileName = file.getOriginalFilename();
-            String filePath = "assets/img/department/" + fileName;
-            department.setThumbnail(filePath);
+        String fileName = file.getOriginalFilename();
+        String filePath =  "http://" + serverHost + ":" + serverPort + "/uploads/" + fileName;// Đường dẫn tới thư mục uploads
+        department.setThumbnail(filePath);
 
+        // Lưu file vào thư mục uploads
+        byte[] bytes = file.getBytes();
+        Path path = Paths.get("uploads/" + fileName); // Đường dẫn thư mục uploads
+        Files.write(path, bytes);
         return departmentRepository.save(department);
     }
-    public Department updateDepartment(Long id, DepartmentDTO request, MultipartFile file) {
-        Department department = departmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Department not found"));
 
-        department.setName(request.getName());
-        department.setExpense(request.getExpense());
-        department.setMaxBooking(request.getMaxBooking());
-        department.setThumbnail(request.getThumbnail());
-        department.setDescription(request.getDescription());
+    public Department updateDepartment(Long id, DepartmentDTO request, MultipartFile file) throws IOException {
+        Optional<Department> departmentOptional = departmentRepository.findById(id);
+        if (departmentOptional.isPresent()) {
+            Department department = departmentOptional.get();
+            department.setName(request.getName());
+            department.setExpense(request.getExpense());
+            department.setMaxBooking(request.getMaxBooking());
+            department.setDescription(request.getDescription());
 
-            String fileName = file.getOriginalFilename();
-            String filePath = "/assets/img/" + fileName;
-            department.setThumbnail(filePath);
+            if (file != null) {
+                String fileName = file.getOriginalFilename();
+                String filePath = "http://" + serverHost + ":" + serverPort + "/uploads/" + fileName;
+                department.setThumbnail(filePath);
 
-        return departmentRepository.save(department);
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get("uploads/" + fileName);
+                Files.write(path, bytes);
+            }
+
+            return departmentRepository.save(department);
+        } else {
+            // Thông báo lỗi hoặc xử lý tùy vào yêu cầu
+            throw new EntityNotFoundException("Department with id " + id + " not found");
+        }
     }
 
     public void deleteDepartment(@PathVariable Long id){
