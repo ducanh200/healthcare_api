@@ -18,10 +18,8 @@ import java.util.Optional;
 
 @Service
 public class DepartmentService {
-    @Value("${server.host}")
-    private String serverHost;
-    @Value("${server.port}")
-    private String serverPort;
+    @Value("${server.url}")
+    private String serverUrl;
     @Autowired
     private DepartmentRepository departmentRepository;
 
@@ -37,7 +35,7 @@ public class DepartmentService {
         department.setDescription(request.getDescription());
 
         String fileName = file.getOriginalFilename();
-        String filePath =  "http://" + serverHost + ":" + serverPort + "/uploads/" + fileName;// Đường dẫn tới thư mục uploads
+        String filePath =  serverUrl + "/uploads/" + fileName;// Đường dẫn tới thư mục uploads
         department.setThumbnail(filePath);
 
         // Lưu file vào thư mục uploads
@@ -58,7 +56,7 @@ public class DepartmentService {
 
             if (file != null) {
                 String fileName = file.getOriginalFilename();
-                String filePath = "http://" + serverHost + ":" + serverPort + "/uploads/" + fileName;
+                String filePath = serverUrl + "/uploads/" + fileName;
                 department.setThumbnail(filePath);
 
                 byte[] bytes = file.getBytes();

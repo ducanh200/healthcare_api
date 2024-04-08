@@ -43,7 +43,7 @@ public class DepartmentController {
             return null;
         }
     }
-
+    @CrossOrigin(origins = "*")
     @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
     public Department updateDepartment(@PathVariable Long id,
                                        @RequestParam("name") String name,
@@ -71,8 +71,8 @@ public class DepartmentController {
         }
     }
 
-    @CrossOrigin(origins = "*")
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/{id}")
     public void deleteDepartment(@PathVariable Long id){
         departmentService.deleteDepartment(id);
