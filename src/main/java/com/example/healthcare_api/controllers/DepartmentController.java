@@ -40,7 +40,7 @@ public class DepartmentController {
     }
 
     @PutMapping(consumes = {"multipart/form-data"} , value = "/{id}")
-    public Department updateDepartment(@PathVariable Long id, @RequestBody DepartmentDTO request, @RequestParam(value = "file" ) MultipartFile file) {
+    public Department updateDepartment(@PathVariable Long id, @RequestParam DepartmentDTO request, @RequestParam(value = "thumbnail" ) MultipartFile file) {
         return departmentService.updateDepartment(id, request, file);
     }
     @CrossOrigin(origins = "*")
