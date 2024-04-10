@@ -14,11 +14,13 @@ import com.example.healthcare_api.repositories.PatientRepository;
 import com.example.healthcare_api.repositories.ShiftRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookingService {
@@ -116,5 +118,21 @@ public class BookingService {
 
         return savedBookingDTO;
     }
-
+    public BookingDTO getById(Long id) {
+        Optional<Booking> bookingOptional = bookingRespository.findById(id);
+        if (bookingOptional.isPresent()) {
+            Booking booking = bookingOptional.get();
+            BookingDTO bookingDTO = new BookingDTO();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setStatus(booking.getStatus());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setPatientId(booking.getPatient().getId());
+            bookingDTO.setDepartmentId(booking.getDepartment().getId());
+            bookingDTO.setShiftId(booking.getShift().getId());
+            return bookingDTO;
+        } else {
+            throw new RuntimeException("Booking not found with ID: " + id);
+        }
+    }
 }

@@ -21,4 +21,8 @@ public class BookingController {
     public BookingDTO createBooking(@RequestBody BookingDTO bookingDTO) {
         return bookingService.createBooking(bookingDTO);
     }
+    @GetMapping("/{id}")
+    public BookingDTO getBookingById(@PathVariable Long id){
+        return bookingService.getById(id);
+    }
 }
