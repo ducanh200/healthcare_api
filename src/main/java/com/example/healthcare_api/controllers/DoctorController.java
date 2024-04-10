@@ -44,7 +44,7 @@ public class DoctorController {
         return doctorService.findById(id);
     }
 
-    @GetMapping("/department/{departmentId}")
+    @GetMapping("/departmentId/{departmentId}")
     public ResponseEntity<List<DoctorDTO>> getByDepartmentId(@PathVariable Long departmentId) {
         List<DoctorDTO> doctorDTOs = doctorService.getByDepartmentId(departmentId);
         return ResponseEntity.ok().body(doctorDTOs);

@@ -21,4 +21,9 @@ public class TestController {
     public TestDTO createTest(@RequestBody TestDTO testDTO){
         return testService.createTest(testDTO);
     }
+
+    @GetMapping("/{id}")
+    public TestDTO getById(@PathVariable Long id){
+        return testService.getById(id);
+    }
 }

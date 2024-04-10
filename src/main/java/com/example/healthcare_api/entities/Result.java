@@ -15,18 +15,31 @@ public class Result {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "request_test")
+    private String requestTest;
+
     private Double expense;
+
+    @Column(name = "diagnose_end")
+    private String diagnoseEnd;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prescription_id")
-    private Prescription prescription;
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "result")
+    private List<ResultMedicine> resultMedicines;
 
     @JsonIgnore
     @OneToMany(mappedBy = "result")
     private List<Test> tests;
+
+
 
 }

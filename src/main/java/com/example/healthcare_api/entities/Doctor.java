@@ -23,10 +23,10 @@ public class Doctor {
     private String phonenumber;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "department_id")
-    @JsonIgnoreProperties("doctors")
-    private Department department;
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "department_id ")
+        @JsonIgnoreProperties("doctors")
+        private Department department;
 
     @JsonIgnore
     @OneToMany(mappedBy = "doctor")
@@ -34,7 +34,8 @@ public class Doctor {
 
     @JsonIgnore
     @OneToMany(mappedBy = "doctor")
-    private List<Prescription> prescriptions;
+    private List<Result> results;
+
 
 
 }

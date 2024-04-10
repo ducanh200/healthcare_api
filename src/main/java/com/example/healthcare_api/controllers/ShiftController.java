@@ -22,4 +22,9 @@ public class ShiftController {
     public ShiftDTO createShift(@RequestBody ShiftDTO shiftDTO) {
         return shiftService.createShift(shiftDTO);
     }
+
+    @GetMapping("/{id}")
+    public ShiftDTO getById(@PathVariable Long id){
+        return shiftService.getShiftById(id);
+    }
 }

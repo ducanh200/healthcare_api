@@ -92,4 +92,22 @@ public class TestService {
 
         return savedTestDTO;
     }
+
+    public TestDTO getById(Long id) {
+        Test test = testRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Test not found with id: " + id));
+
+        TestDTO testDTO = new TestDTO();
+        testDTO.setId(test.getId());
+        testDTO.setDiagnose(test.getDiagnose());
+        testDTO.setThumbnail(test.getThumbnail());
+        testDTO.setTestAt(test.getTestAt());
+        testDTO.setExpense(test.getExpense());
+        testDTO.setDoctorId(test.getDoctor().getId());
+        testDTO.setDeviceId(test.getDevice().getId());
+        testDTO.setResultId(test.getResult().getId());
+
+
+        return testDTO;
+    }
 }

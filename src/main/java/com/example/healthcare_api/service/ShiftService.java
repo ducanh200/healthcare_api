@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ShiftService {
@@ -42,4 +43,21 @@ public class ShiftService {
 
         return savedShiftDTO;
     }
+
+    public ShiftDTO getShiftById(Long id) {
+        Optional<Shift> optionalShift = shiftRepository.findById(id);
+
+        if (optionalShift.isPresent()) {
+            Shift shift = optionalShift.get();
+            ShiftDTO shiftDTO = new ShiftDTO();
+            shiftDTO.setId(shift.getId());
+            shiftDTO.setTime(shift.getTime());
+            shiftDTO.setSession(shift.getSession());
+            return shiftDTO;
+        } else {
+            // Ném ra một ngoại lệ hoặc xử lý tùy thuộc vào yêu cầu của bạn
+            throw new IllegalArgumentException("Không tìm thấy ca làm việc với ID: " + id);
+        }
+    }
+
 }
