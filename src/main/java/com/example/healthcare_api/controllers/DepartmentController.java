@@ -43,7 +43,7 @@ public class DepartmentController {
             return null;
         }
     }
-    @CrossOrigin(origins = "*")
+
     @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
     public Department updateDepartment(@PathVariable Long id,
                                        @RequestParam("name") String name,
@@ -59,15 +59,14 @@ public class DepartmentController {
 
         try {
             Department updatedDepartment = departmentService.updateDepartment(id, request, file);
-            // Kiểm tra xem phòng ban đã được cập nhật thành công hay không
             if (updatedDepartment != null) {
-                return updatedDepartment; // Trả về phòng ban đã được cập nhật
+                return updatedDepartment;
             } else {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found"); // Nếu không tìm thấy phòng ban
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found");
             }
         } catch (IOException e) {
             e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", e); // Lỗi xử lý yêu cầu
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", e);
         }
     }
 

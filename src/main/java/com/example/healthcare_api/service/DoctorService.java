@@ -7,17 +7,25 @@ import com.example.healthcare_api.entities.Doctor;
 import com.example.healthcare_api.repositories.DepartmentRepository;
 import com.example.healthcare_api.repositories.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class DoctorService {
+    @Value("${server.url}")
+    private String serverUrl;
     @Autowired
     private DoctorRepository doctorRepository;
     @Autowired
@@ -55,7 +63,7 @@ public class DoctorService {
         return doctorDTOs;
     }
 
-    public DoctorDTO createDoctor(DoctorDTO request) {
+    public DoctorDTO createDoctor(DoctorDTO request, MultipartFile file) throws IOException {
         Department department = departmentRepository.findById(request.getDepartmentId())
                 .orElseThrow(() -> new IllegalArgumentException("Department not found with id: " + request.getDepartmentId()));
 
@@ -65,7 +73,12 @@ public class DoctorService {
         doctor.setName(request.getName());
         doctor.setEmail(request.getEmail());
         doctor.setPassword(passwordEncoder.encode(request.getPassword()));
-        doctor.setThumbnail(request.getThumbnail());
+        String fileName = file.getOriginalFilename();
+        String filePath =  serverUrl + "/uploads/" + fileName;// Đường dẫn tới thư mục uploads
+        doctor.setThumbnail(filePath);
+        byte[] bytes = file.getBytes();
+        Path path = Paths.get("uploads/" + fileName); // Đường dẫn thư mục uploads
+        Files.write(path, bytes);
         doctor.setPhonenumber(request.getPhonenumber());
         doctor.setDepartment(department);
 
@@ -95,11 +108,19 @@ public class DoctorService {
     }
 
 
-    public DoctorDTO update(Long id, DoctorDTO request) {
+    public DoctorDTO update(Long id, DoctorDTO request, MultipartFile file) throws IOException {
         Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Doctor not found with id: " + id));
 
         doctor.setName(request.getName());
-        doctor.setThumbnail(request.getThumbnail());
+        if (file != null) {
+            String fileName = file.getOriginalFilename();
+            String filePath = serverUrl + "/uploads/" + fileName;
+            doctor.setThumbnail(filePath);
+
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get("uploads/" + fileName);
+            Files.write(path, bytes);
+        }
         doctor.setPhonenumber(request.getPhonenumber());
 
         if (!doctor.getDepartment().getId().equals(request.getDepartmentId())) {

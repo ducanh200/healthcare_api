@@ -21,6 +21,10 @@ public class BookingController {
     public BookingDTO createBooking(@RequestBody BookingDTO bookingDTO) {
         return bookingService.createBooking(bookingDTO);
     }
+    @PutMapping("/updateStatus/{id}")
+    public BookingDTO updateStatus(@PathVariable Long id){
+        return bookingService.updateStatus(id);
+    }
     @GetMapping("/{id}")
     public BookingDTO getBookingById(@PathVariable Long id){
         return bookingService.getById(id);
