@@ -70,6 +70,7 @@ public class BookingService {
             departmentDTO.setName(department.getName());
             departmentDTO.setExpense(department.getExpense());
             departmentDTO.setMaxBooking(department.getMaxBooking());
+            departmentDTO.setThumbnail(department.getThumbnail());
 
             bookingDTO.setDepartment(departmentDTO);
 
