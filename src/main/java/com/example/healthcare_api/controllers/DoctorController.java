@@ -48,6 +48,7 @@ public class DoctorController {
     }
 
 
+    @CrossOrigin(origins = "*")
     @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
     public DoctorDTO updateDoctor(
                                 @PathVariable Long id,
