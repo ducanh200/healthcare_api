@@ -56,8 +56,11 @@ public class BookingService {
             patientDTO.setId(patient.getId());
             patientDTO.setName(patient.getName());
             patientDTO.setEmail(patient.getEmail());
+            patientDTO.setGender(patient.getGender());
+            patientDTO.setBirthday(patient.getBirthday());
             patientDTO.setPhonenumber(patient.getPhonenumber());
             patientDTO.setAddress(patient.getAddress());
+            patientDTO.setCity(patient.getCity());
 
             bookingDTO.setPatient(patientDTO);
 
