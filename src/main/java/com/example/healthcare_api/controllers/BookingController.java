@@ -21,6 +21,7 @@ public class BookingController {
     public BookingDTO createBooking(@RequestBody BookingDTO bookingDTO) {
         return bookingService.createBooking(bookingDTO);
     }
+    @CrossOrigin(origins = "*")
     @PutMapping("/updateStatus/{id}")
     public BookingDTO updateStatus(@PathVariable Long id){
         return bookingService.updateStatus(id);

@@ -22,12 +22,12 @@ public class MedicineController {
     public Medicine createMedicine(@RequestBody Medicine medicine){
         return medicineService.createMedicine(medicine);
     }
-
+    @CrossOrigin(origins = "*")
     @PutMapping("/{id}")
     public Medicine updateMedicine(@PathVariable Long id, @RequestBody Medicine medicine){
         return medicineService.updateMedicine(id, medicine);
     }
-
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
         medicineService.delete(id);

@@ -45,7 +45,7 @@ public class PatientController {
     public List<Patient> PatientFindByName(String name){
         return patientService.findByName(name);
     }
-
+    @CrossOrigin(origins = "*")
     @GetMapping("/{id}")
     public Patient patientById(@PathVariable Long id){
         return patientService.getById(id);

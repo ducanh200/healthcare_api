@@ -71,7 +71,7 @@ public class DepartmentController {
         }
     }
 
-
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/{id}")
     public void deleteDepartment(@PathVariable Long id){
         departmentService.deleteDepartment(id);
