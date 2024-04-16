@@ -1,11 +1,17 @@
 package com.example.healthcare_api.controllers;
 
 import com.example.healthcare_api.dto.DoctorDTO;
+import com.example.healthcare_api.dto.PatientDTO;
+import com.example.healthcare_api.dto.response_model.LoginResponse;
 import com.example.healthcare_api.entities.Doctor;
+import com.example.healthcare_api.entities.Patient;
 import com.example.healthcare_api.service.DoctorService;
+import com.example.healthcare_api.service.JwtService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,8 +22,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v3/doctors")
 public class DoctorController {
-    @Autowired
-    private DoctorService doctorService;
+
+    private final DoctorService doctorService;
+    private final JwtService jwtService;
+
+    public DoctorController(DoctorService doctorService, JwtService jwtService) {
+        this.doctorService = doctorService;
+        this.jwtService = jwtService;
+    }
 
     @GetMapping()
     public List<DoctorDTO> getAllDoctor(){
@@ -88,5 +100,21 @@ public class DoctorController {
     @DeleteMapping("/{id}")
     public void deleteDoctor(@PathVariable Long id){
         doctorService.deleteDoctor(id);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody DoctorDTO repuest){
+        Doctor doctor = doctorService.authenticate(repuest);
+        String jwtToken = jwtService.generateToken(doctor);
+        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken)
+                .setExpiresIn(jwtService.getExpirationTime());
+        return  ResponseEntity.ok(loginResponse);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<Doctor> profile(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Doctor currenUser = (Doctor) auth.getPrincipal();
+        return ResponseEntity.ok(currenUser);
     }
 }

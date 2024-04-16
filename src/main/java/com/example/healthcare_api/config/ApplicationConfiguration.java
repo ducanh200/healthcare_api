@@ -1,7 +1,11 @@
 package com.example.healthcare_api.config;
 
 import com.example.healthcare_api.entities.Admin;
+import com.example.healthcare_api.entities.Doctor;
+import com.example.healthcare_api.entities.Patient;
 import com.example.healthcare_api.repositories.AdminRepository;
+import com.example.healthcare_api.repositories.DoctorRepository;
+import com.example.healthcare_api.repositories.PatientRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,9 +21,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class ApplicationConfiguration {
     private final AdminRepository adminRepository;
+    private final PatientRepository patientRepository;
+    private final DoctorRepository doctorRepository;
 
-    public ApplicationConfiguration(AdminRepository adminRepository) {
+    public ApplicationConfiguration(AdminRepository adminRepository, PatientRepository patientRepository, DoctorRepository doctorRepository) {
         this.adminRepository = adminRepository;
+        this.patientRepository = patientRepository;
+        this.doctorRepository = doctorRepository;
     }
 
 
@@ -27,9 +35,17 @@ public class ApplicationConfiguration {
     public UserDetailsService userDetailsService(){
         return email->{
             Admin admin = adminRepository.findByEmail(email);
-            if(admin==null)
+            Patient patient = patientRepository.findByEmail(email);
+            Doctor doctor =  doctorRepository.findByEmail(email);
+            if (admin != null) {
+                return admin;
+            } else if (patient != null) {
+                return patient;
+            } else if (doctor != null) {
+                return doctor;
+            } else {
                 throw new UsernameNotFoundException("Email or password is not correct!");
-            return admin;
+            }
         };
     }
 

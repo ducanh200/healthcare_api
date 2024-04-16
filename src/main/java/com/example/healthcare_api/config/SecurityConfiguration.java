@@ -32,6 +32,8 @@ public class SecurityConfiguration {
                                 .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
                                 .requestMatchers("/admin/**").hasAnyRole("ADMIN")
                                 .requestMatchers("/api/v3/admin/**").permitAll()
+                                .requestMatchers("/api/v3/patients/**").permitAll()
+                                .requestMatchers("/api/v3/doctors/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())

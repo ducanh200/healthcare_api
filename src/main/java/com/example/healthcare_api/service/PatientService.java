@@ -1,9 +1,14 @@
 package com.example.healthcare_api.service;
 
+import com.example.healthcare_api.dto.AdminDTO;
 import com.example.healthcare_api.dto.PatientDTO;
+import com.example.healthcare_api.entities.Admin;
 import com.example.healthcare_api.entities.Patient;
 import com.example.healthcare_api.repositories.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,15 +20,21 @@ import java.util.Optional;
 
 @Service
 public class PatientService {
-    @Autowired
-    private PatientRepository patientRepository;
+    private final PatientRepository patientRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+
+    public PatientService(PatientRepository patientRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+        this.patientRepository = patientRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+    }
 
     public List<Patient> getAll(){
         return patientRepository.findAll();
     }
 
     public Patient createPatient(@RequestBody PatientDTO request){
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         Patient patient = new Patient();
         patient.setName(request.getName());
         patient.setEmail(request.getEmail());
@@ -51,7 +62,6 @@ public class PatientService {
     }
 
     public Patient changePassword(@PathVariable Long id,@RequestBody PatientDTO request){
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
         Patient patient = getById(id);
 
@@ -72,5 +82,18 @@ public class PatientService {
     public Patient getById(Long id){
         return patientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
+    }
+
+    public Patient authenticate(PatientDTO input){
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        input.getEmail(),
+                        input.getPassword()
+                )
+        );
+        Patient patient = patientRepository.findByEmail(input.getEmail());
+        if (patient==null)
+            throw new UsernameNotFoundException("Email or Password is not correct!");
+        return patient;
     }
 }

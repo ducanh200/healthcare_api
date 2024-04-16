@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface PatientRepository extends JpaRepository<Patient,Long> {
     List<Patient> findAllByNameContaining(String name);
 
+    Patient findByEmail(String email);
 }

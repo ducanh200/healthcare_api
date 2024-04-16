@@ -1,11 +1,18 @@
 package com.example.healthcare_api.controllers;
 
+import com.example.healthcare_api.dto.AdminDTO;
 import com.example.healthcare_api.dto.DoctorDTO;
 import com.example.healthcare_api.dto.PatientDTO;
+import com.example.healthcare_api.dto.response_model.LoginResponse;
+import com.example.healthcare_api.entities.Admin;
 import com.example.healthcare_api.entities.Patient;
+import com.example.healthcare_api.service.JwtService;
 import com.example.healthcare_api.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,8 +20,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v3/patients")
 public class PatientController {
-    @Autowired
-    private PatientService patientService;
+    private final PatientService patientService;
+
+    private final JwtService jwtService;
+
+    public PatientController(PatientService patientService, JwtService jwtService) {
+        this.patientService = patientService;
+        this.jwtService = jwtService;
+    }
 
     @GetMapping()
     public List<Patient> getAllPatient(){
@@ -49,5 +62,21 @@ public class PatientController {
     @GetMapping("/{id}")
     public Patient patientById(@PathVariable Long id){
         return patientService.getById(id);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody PatientDTO repuest){
+        Patient patient = patientService.authenticate(repuest);
+        String jwtToken = jwtService.generateToken(patient);
+        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken)
+                .setExpiresIn(jwtService.getExpirationTime());
+        return  ResponseEntity.ok(loginResponse);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<Patient> profile(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Patient currenUser = (Patient) auth.getPrincipal();
+        return ResponseEntity.ok(currenUser);
     }
 }

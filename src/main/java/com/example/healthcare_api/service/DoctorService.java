@@ -2,12 +2,17 @@ package com.example.healthcare_api.service;
 
 import com.example.healthcare_api.dto.DepartmentDTO;
 import com.example.healthcare_api.dto.DoctorDTO;
+import com.example.healthcare_api.dto.PatientDTO;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.entities.Doctor;
+import com.example.healthcare_api.entities.Patient;
 import com.example.healthcare_api.repositories.DepartmentRepository;
 import com.example.healthcare_api.repositories.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,11 +31,17 @@ import java.util.List;
 public class DoctorService {
     @Value("${server.url}")
     private String serverUrl;
-    @Autowired
-    private DoctorRepository doctorRepository;
-    @Autowired
-    private DepartmentRepository departmentRepository;
+    private final DoctorRepository doctorRepository;
+    private final DepartmentRepository departmentRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
+    public DoctorService(DoctorRepository doctorRepository, DepartmentRepository departmentRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+        this.doctorRepository = doctorRepository;
+        this.departmentRepository = departmentRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+    }
 
 
     public List<DoctorDTO> getAll() {
@@ -66,8 +77,6 @@ public class DoctorService {
     public DoctorDTO createDoctor(DoctorDTO request, MultipartFile file) throws IOException {
         Department department = departmentRepository.findById(request.getDepartmentId())
                 .orElseThrow(() -> new IllegalArgumentException("Department not found with id: " + request.getDepartmentId()));
-
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
         Doctor doctor = new Doctor();
         doctor.setName(request.getName());
@@ -146,7 +155,6 @@ public class DoctorService {
     }
 
     public DoctorDTO changePassword(@PathVariable Long id,@RequestBody DoctorDTO request){
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
         Doctor doctor = doctorRepository.findById(id).orElseThrow(() -> new RuntimeException("Doctor not found with id: " + id));
 
@@ -224,5 +232,18 @@ public class DoctorService {
     public void deleteDoctor(@PathVariable Long id){
         doctorRepository.deleteById(id);
         throw new RuntimeException("Doctor deleted have id :"+ id);
+    }
+
+    public Doctor authenticate(DoctorDTO input){
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        input.getEmail(),
+                        input.getPassword()
+                )
+        );
+        Doctor doctor = doctorRepository.findByEmail(input.getEmail());
+        if (doctor==null)
+            throw new UsernameNotFoundException("Email or Password is not correct!");
+        return doctor;
     }
 }
