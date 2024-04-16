@@ -5,6 +5,9 @@ import com.example.healthcare_api.entities.Admin;
 import com.example.healthcare_api.entities.Doctor;
 import com.example.healthcare_api.repositories.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,15 +18,23 @@ import java.util.List;
 
 @Service
 public class AdminService {
-    @Autowired
-    private AdminRepository adminRepository;
+
+    private final AdminRepository adminRepository;
+
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+
+    public AdminService(AdminRepository adminRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+        this.adminRepository = adminRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+    }
 
     public List<Admin> getAll(){
         return adminRepository.findAll();
     }
 
     public AdminDTO create(AdminDTO adminDTO) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         Admin admin = new Admin();
         admin.setName(adminDTO.getName());
         admin.setEmail(adminDTO.getEmail());
@@ -46,7 +57,6 @@ public class AdminService {
 
         existingAdmin.setName(adminDTO.getName());
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         existingAdmin.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
 
         Admin updatedAdmin = adminRepository.save(existingAdmin);
@@ -61,4 +71,18 @@ public class AdminService {
     public void deleteAdmin(@PathVariable Long id){
         adminRepository.deleteById(id);
     }
+
+    public Admin authenticate(AdminDTO input){
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        input.getEmail(),
+                        input.getPassword()
+                )
+        );
+        Admin user = adminRepository.findByEmail(input.getEmail());
+        if (user==null)
+            throw new UsernameNotFoundException("Email or Password is not correct!");
+        return user;
+    }
+
 }

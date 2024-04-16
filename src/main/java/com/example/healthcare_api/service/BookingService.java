@@ -56,6 +56,9 @@ public class BookingService {
             patientDTO.setId(patient.getId());
             patientDTO.setName(patient.getName());
             patientDTO.setEmail(patient.getEmail());
+            patientDTO.setBirthday(patient.getBirthday());
+            patientDTO.setGender(patient.getGender());
+            patientDTO.setCity(patient.getCity());
             patientDTO.setPhonenumber(patient.getPhonenumber());
             patientDTO.setAddress(patient.getAddress());
 
@@ -150,14 +153,44 @@ public class BookingService {
             BookingDTO bookingDTO = new BookingDTO();
             bookingDTO.setId(booking.getId());
             bookingDTO.setBookingAt(booking.getBookingAt());
-            bookingDTO.setStatus(booking.getStatus());
             bookingDTO.setDate(booking.getDate());
-            bookingDTO.setPatientId(booking.getPatient().getId());
-            bookingDTO.setDepartmentId(booking.getDepartment().getId());
-            bookingDTO.setShiftId(booking.getShift().getId());
+            bookingDTO.setStatus(booking.getStatus());
+
+            Patient patient = booking.getPatient();
+            PatientDTO patientDTO = new PatientDTO();
+            patientDTO.setId(patient.getId());
+            patientDTO.setName(patient.getName());
+            patientDTO.setEmail(patient.getEmail());
+            patientDTO.setBirthday(patient.getBirthday());
+            patientDTO.setGender(patient.getGender());
+            patientDTO.setCity(patient.getCity());
+            patientDTO.setPhonenumber(patient.getPhonenumber());
+            patientDTO.setAddress(patient.getAddress());
+
+            bookingDTO.setPatient(patientDTO);
+
+            Department department = booking.getDepartment();
+            DepartmentDTO departmentDTO = new DepartmentDTO();
+            departmentDTO.setId(department.getId());
+            departmentDTO.setName(department.getName());
+            departmentDTO.setExpense(department.getExpense());
+            departmentDTO.setMaxBooking(department.getMaxBooking());
+
+            bookingDTO.setDepartment(departmentDTO);
+
+            Shift shift = booking.getShift();
+            ShiftDTO shiftDTO = new ShiftDTO();
+            shiftDTO.setId(shift.getId());
+            shiftDTO.setTime(shift.getTime());
+            shiftDTO.setSession(shift.getSession());
+
+            bookingDTO.setShift(shiftDTO);
+
             return bookingDTO;
         } else {
-            throw new RuntimeException("Booking not found with ID: " + id);
+            // Xử lý trường hợp không tìm thấy booking với id đã cung cấp
+            // Ví dụ: có thể ném một ngoại lệ, hoặc trả về null hoặc một đối tượng BookingDTO trống, tùy thuộc vào yêu cầu của ứng dụng của bạn
+            return null;
         }
     }
 }
