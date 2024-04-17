@@ -34,6 +34,8 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/v3/admin/**").permitAll()
                                 .requestMatchers("/api/v3/patients/**").permitAll()
                                 .requestMatchers("/api/v3/doctors/**").permitAll()
+                                .requestMatchers("/api/v3/medicine/**").permitAll()
+                                .requestMatchers("/api/v3/departments/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
