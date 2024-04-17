@@ -1,5 +1,6 @@
 package com.example.healthcare_api.controllers;
 
+import com.example.healthcare_api.dtos.EmailDTO;
 import com.example.healthcare_api.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,8 +15,8 @@ public class EmailController {
     private EmailService emailService;
 
     @PostMapping()
-    public String sendEmail(@RequestBody String to, @RequestBody String subject) {
-        emailService.sendSimpleMessage(to,subject);
+    public String sendEmail(@RequestBody EmailDTO emailDTO) {
+        emailService.sendSimpleMessage(emailDTO);
         return "Email sent successfully";
     }
 }
