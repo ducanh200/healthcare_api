@@ -1,8 +1,8 @@
 package com.example.healthcare_api.service;
 
-import com.example.healthcare_api.dto.MedicineDTO;
-import com.example.healthcare_api.dto.ResultDTO;
-import com.example.healthcare_api.dto.ResultMedicineDTO;
+import com.example.healthcare_api.dtos.MedicineDTO;
+import com.example.healthcare_api.dtos.ResultDTO;
+import com.example.healthcare_api.dtos.ResultMedicineDTO;
 import com.example.healthcare_api.entities.Medicine;
 import com.example.healthcare_api.entities.Result;
 import com.example.healthcare_api.entities.ResultMedicine;

@@ -1,9 +1,9 @@
 package com.example.healthcare_api.service;
 
-import com.example.healthcare_api.dto.BookingDTO;
-import com.example.healthcare_api.dto.DepartmentDTO;
-import com.example.healthcare_api.dto.PatientDTO;
-import com.example.healthcare_api.dto.ShiftDTO;
+import com.example.healthcare_api.dtos.BookingDTO;
+import com.example.healthcare_api.dtos.DepartmentDTO;
+import com.example.healthcare_api.dtos.PatientDTO;
+import com.example.healthcare_api.dtos.ShiftDTO;
 import com.example.healthcare_api.entities.Booking;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.entities.Patient;
@@ -14,7 +14,6 @@ import com.example.healthcare_api.repositories.PatientRepository;
 import com.example.healthcare_api.repositories.ShiftRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

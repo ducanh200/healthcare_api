@@ -1,6 +1,6 @@
 package com.example.healthcare_api.service;
 
-import com.example.healthcare_api.dto.TestDTO;
+import com.example.healthcare_api.dtos.TestDTO;
 import com.example.healthcare_api.entities.Device;
 import com.example.healthcare_api.entities.Doctor;
 import com.example.healthcare_api.entities.Result;
@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class TestService {
         Test test = new Test();
         test.setDiagnose(testDTO.getDiagnose());
         test.setThumbnail(testDTO.getThumbnail());
-        test.setTestAt(testDTO.getTestAt());
+        test.setTestAt(Timestamp.valueOf(LocalDateTime.now()));
         test.setExpense(testDTO.getExpense());
 
         // Tìm và ánh xạ đối tượng Device từ DTO

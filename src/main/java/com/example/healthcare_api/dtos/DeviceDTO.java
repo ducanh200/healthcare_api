@@ -1,4 +1,4 @@
-package com.example.healthcare_api.dto;
+package com.example.healthcare_api.dtos;
 
 import jakarta.validation.constraints.Size;
 import lombok.Data;

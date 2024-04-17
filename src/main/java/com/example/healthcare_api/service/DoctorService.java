@@ -1,19 +1,15 @@
 package com.example.healthcare_api.service;
 
-import com.example.healthcare_api.dto.DepartmentDTO;
-import com.example.healthcare_api.dto.DoctorDTO;
-import com.example.healthcare_api.dto.PatientDTO;
+import com.example.healthcare_api.dtos.DepartmentDTO;
+import com.example.healthcare_api.dtos.DoctorDTO;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.entities.Doctor;
-import com.example.healthcare_api.entities.Patient;
 import com.example.healthcare_api.repositories.DepartmentRepository;
 import com.example.healthcare_api.repositories.DoctorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;

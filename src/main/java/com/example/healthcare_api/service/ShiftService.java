@@ -1,6 +1,6 @@
 package com.example.healthcare_api.service;
 
-import com.example.healthcare_api.dto.ShiftDTO;
+import com.example.healthcare_api.dtos.ShiftDTO;
 import com.example.healthcare_api.entities.Shift;
 import com.example.healthcare_api.repositories.ShiftRepository;
 import org.springframework.beans.factory.annotation.Autowired;
