@@ -1,4 +1,4 @@
-package com.example.healthcare_api.dto.response_model;
+package com.example.healthcare_api.dtos.response_model;
 
 public class LoginResponse {
     private String token;

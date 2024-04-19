@@ -1,6 +1,6 @@
 package com.example.healthcare_api.controllers;
 
-import com.example.healthcare_api.dto.ShiftDTO;
+import com.example.healthcare_api.dtos.ShiftDTO;
 import com.example.healthcare_api.service.ShiftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

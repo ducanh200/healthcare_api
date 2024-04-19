@@ -1,6 +1,6 @@
 package com.example.healthcare_api.service;
 
-import com.example.healthcare_api.dto.DepartmentDTO;
+import com.example.healthcare_api.dtos.DepartmentDTO;
 import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.repositories.DepartmentRepository;
 import jakarta.persistence.EntityNotFoundException;

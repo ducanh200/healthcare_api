@@ -1,6 +1,6 @@
 package com.example.healthcare_api.controllers;
 
-import com.example.healthcare_api.dto.ResultDTO;
+import com.example.healthcare_api.dtos.ResultDTO;
 import com.example.healthcare_api.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

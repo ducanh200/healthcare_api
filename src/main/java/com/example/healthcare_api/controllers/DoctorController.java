@@ -1,14 +1,10 @@
 package com.example.healthcare_api.controllers;
 
-import com.example.healthcare_api.dto.DoctorDTO;
-import com.example.healthcare_api.dto.PatientDTO;
-import com.example.healthcare_api.dto.response_model.LoginResponse;
+import com.example.healthcare_api.dtos.DoctorDTO;
+import com.example.healthcare_api.dtos.response_model.LoginResponse;
 import com.example.healthcare_api.entities.Doctor;
-import com.example.healthcare_api.entities.Patient;
 import com.example.healthcare_api.service.DoctorService;
 import com.example.healthcare_api.service.JwtService;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v3/doctors")

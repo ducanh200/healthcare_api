@@ -1,6 +1,6 @@
 package com.example.healthcare_api.controllers;
 
-import com.example.healthcare_api.dto.DeviceDTO;
+import com.example.healthcare_api.dtos.DeviceDTO;
 import com.example.healthcare_api.entities.Device;
 import com.example.healthcare_api.service.DeviceService;
 import jakarta.validation.Valid;

@@ -1,11 +1,10 @@
 package com.example.healthcare_api.controllers;
 
-import com.example.healthcare_api.dto.AdminDTO;
-import com.example.healthcare_api.dto.response_model.LoginResponse;
+import com.example.healthcare_api.dtos.AdminDTO;
+import com.example.healthcare_api.dtos.response_model.LoginResponse;
 import com.example.healthcare_api.entities.Admin;
 import com.example.healthcare_api.service.AdminService;
 import com.example.healthcare_api.service.JwtService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
