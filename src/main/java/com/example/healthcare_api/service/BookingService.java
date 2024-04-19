@@ -67,7 +67,6 @@ public class BookingService {
             DepartmentDTO departmentDTO = new DepartmentDTO();
             departmentDTO.setId(department.getId());
             departmentDTO.setName(department.getName());
-            departmentDTO.setExpense(department.getExpense());
             departmentDTO.setMaxBooking(department.getMaxBooking());
 
             bookingDTO.setDepartment(departmentDTO);
@@ -172,7 +171,6 @@ public class BookingService {
             DepartmentDTO departmentDTO = new DepartmentDTO();
             departmentDTO.setId(department.getId());
             departmentDTO.setName(department.getName());
-            departmentDTO.setExpense(department.getExpense());
             departmentDTO.setMaxBooking(department.getMaxBooking());
 
             bookingDTO.setDepartment(departmentDTO);
