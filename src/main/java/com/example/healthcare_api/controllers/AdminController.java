@@ -26,7 +26,7 @@ public class AdminController {
         this.jwtService = jwtService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping()
     public List<Admin> getAllAdmin(){
         return adminService.getAll();
