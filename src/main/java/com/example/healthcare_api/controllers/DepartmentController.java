@@ -22,7 +22,7 @@ public class DepartmentController {
 
 
     @GetMapping()
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('DOCTOR')")
     public List<Department> getAll(){
         return departmentService.getAll();
     }
