@@ -39,6 +39,7 @@ public class PatientService {
         patient.setPhonenumber(request.getPhonenumber());
         patient.setAddress(request.getAddress());
         patient.setCity(request.getCity());
+        patient.setRole("PATIENT");
 
         return patientRepository.save(patient);
     }

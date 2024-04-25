@@ -4,9 +4,12 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "admins")
@@ -18,6 +21,7 @@ public class Admin implements UserDetails {
     private String name;
     private String email;
     private String password;
+    private String role;
 
 
     public Admin setId(Long id) {
@@ -40,9 +44,19 @@ public class Admin implements UserDetails {
         return this;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        GrantedAuthority authority = new SimpleGrantedAuthority(getRole());
+        List<GrantedAuthority> list = List.of(authority);
+        return list;
     }
 
     @Override

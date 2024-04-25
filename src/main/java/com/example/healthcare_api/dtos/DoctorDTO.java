@@ -13,6 +13,7 @@ public class DoctorDTO {
     private String password;
     private String thumbnail;
     private String phonenumber;
+    private String role;
     private Long departmentId;
 
     private DepartmentDTO department;

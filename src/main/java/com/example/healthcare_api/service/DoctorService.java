@@ -52,11 +52,11 @@ public class DoctorService {
             doctorDTO.setPassword(doctor.getPassword());
             doctorDTO.setThumbnail(doctor.getThumbnail());
             doctorDTO.setPhonenumber(doctor.getPhonenumber());
+            doctorDTO.setRole(doctor.getRole());
             doctorDTO.setDepartmentId(doctor.getDepartment().getId());
 
             DepartmentDTO departmentDTO = new DepartmentDTO();
             departmentDTO.setId(doctor.getDepartment().getId());
-            departmentDTO.setExpense(doctor.getDepartment().getExpense());
             departmentDTO.setName(doctor.getDepartment().getName());
             departmentDTO.setMaxBooking(doctor.getDepartment().getMaxBooking());
             departmentDTO.setDescription(doctor.getDepartment().getDescription());
@@ -85,6 +85,7 @@ public class DoctorService {
         Path path = Paths.get("uploads/" + fileName); // Đường dẫn thư mục uploads
         Files.write(path, bytes);
         doctor.setPhonenumber(request.getPhonenumber());
+        doctor.setRole("DOCTOR");
         doctor.setDepartment(department);
 
         Doctor savedDoctor = doctorRepository.save(doctor);
@@ -97,11 +98,11 @@ public class DoctorService {
         savedDoctorDTO.setPassword(passwordEncoder.encode(savedDoctor.getPassword()));
         savedDoctorDTO.setThumbnail(savedDoctor.getThumbnail());
         savedDoctorDTO.setPhonenumber(savedDoctor.getPhonenumber());
+        savedDoctorDTO.setRole(savedDoctor.getRole());
         savedDoctorDTO.setDepartmentId(savedDoctor.getDepartment().getId()); // Set departmentId
 
         DepartmentDTO departmentDTO = new DepartmentDTO();
         departmentDTO.setId(savedDoctor.getDepartment().getId());
-        departmentDTO.setExpense(savedDoctor.getDepartment().getExpense());
         departmentDTO.setName(savedDoctor.getDepartment().getName());
         departmentDTO.setMaxBooking(savedDoctor.getDepartment().getMaxBooking());
         departmentDTO.setDescription(savedDoctor.getDepartment().getDescription());
@@ -145,6 +146,7 @@ public class DoctorService {
         doctorDTO.setPassword(updateDoctor.getPassword());
         doctorDTO.setThumbnail(updateDoctor.getThumbnail());
         doctorDTO.setPhonenumber(updateDoctor.getPhonenumber());
+        doctorDTO.setRole(updateDoctor.getRole());
         doctorDTO.setDepartmentId(updateDoctor.getDepartment().getId());
 
         return doctorDTO;
@@ -165,6 +167,7 @@ public class DoctorService {
         doctorDTO.setPassword(passwordEncoder.encode(updateDoctor.getPassword()));
         doctorDTO.setThumbnail(updateDoctor.getThumbnail());
         doctorDTO.setPhonenumber(updateDoctor.getPhonenumber());
+        doctorDTO.setRole(updateDoctor.getRole());
         doctorDTO.setDepartmentId(updateDoctor.getDepartment().getId());
 
         return doctorDTO;
@@ -182,13 +185,13 @@ public class DoctorService {
         doctorDTO.setPassword(doctor.getPassword());
         doctorDTO.setThumbnail(doctor.getThumbnail());
         doctorDTO.setPhonenumber(doctor.getPhonenumber());
+        doctorDTO.setRole(doctor.getRole());
         doctorDTO.setDepartmentId(doctor.getDepartment().getId());
 
 
         DepartmentDTO departmentDTO = new DepartmentDTO();
         departmentDTO.setId(doctor.getId());
         departmentDTO.setName(doctor.getName());
-        departmentDTO.setExpense(doctor.getDepartment().getExpense());
         departmentDTO.setDescription(doctor.getDepartment().getDescription());
         departmentDTO.setThumbnail(doctor.getDepartment().getThumbnail());
         doctorDTO.setDepartment(departmentDTO);
@@ -208,12 +211,12 @@ public class DoctorService {
             doctorDTO.setPassword(doctor.getPassword());
             doctorDTO.setThumbnail(doctor.getThumbnail());
             doctorDTO.setPhonenumber(doctor.getPhonenumber());
+            doctorDTO.setRole(doctor.getRole());
             doctorDTO.setDepartmentId(doctor.getDepartment().getId());
 
             DepartmentDTO departmentDTO = new DepartmentDTO();
             departmentDTO.setId(doctor.getId());
             departmentDTO.setName(doctor.getName());
-            departmentDTO.setExpense(doctor.getDepartment().getExpense());
             departmentDTO.setDescription(doctor.getDepartment().getDescription());
             departmentDTO.setThumbnail(doctor.getDepartment().getThumbnail());
 

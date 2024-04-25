@@ -35,6 +35,7 @@ public class AdminService {
         admin.setName(adminDTO.getName());
         admin.setEmail(adminDTO.getEmail());
         admin.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
+        admin.setRole("ADMIN");
 
         Admin savedAdmin = adminRepository.save(admin);
 
@@ -43,6 +44,7 @@ public class AdminService {
         savedAdminDTO.setName(savedAdmin.getName());
         savedAdminDTO.setEmail(savedAdmin.getEmail());
         savedAdminDTO.setPassword(savedAdmin.getPassword());
+        savedAdminDTO.setRole(savedAdmin.getRole());
 
         return savedAdminDTO;
     }
@@ -62,6 +64,7 @@ public class AdminService {
         updateAdminDTO.setName(updatedAdmin.getName());
         updateAdminDTO.setEmail(updatedAdmin.getEmail());
         updateAdminDTO.setPassword(updatedAdmin.getPassword());
+        updateAdminDTO.setRole(updatedAdmin.getRole());
         return updateAdminDTO;
     }
     public void deleteAdmin(@PathVariable Long id){

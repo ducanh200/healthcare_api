@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -28,6 +29,7 @@ public class Patient implements UserDetails {
     private String phonenumber;
     private String address;
     private String city;
+    private String role;
 
     @OneToMany(mappedBy = "patient")
     @JsonIgnore
@@ -79,6 +81,14 @@ public class Patient implements UserDetails {
         return this;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Patient setBookings(List<Booking> bookings) {
         this.bookings = bookings;
         return this;
@@ -86,7 +96,9 @@ public class Patient implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        GrantedAuthority authority = new SimpleGrantedAuthority(getRole());
+        List<GrantedAuthority> list = List.of(authority);
+        return list;
     }
 
     @Override

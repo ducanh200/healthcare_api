@@ -6,8 +6,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.print.Doc;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,6 +28,7 @@ public class Doctor implements UserDetails {
     private String password;
     private String thumbnail;
     private String phonenumber;
+    private String role;
 
 
         @ManyToOne(fetch = FetchType.EAGER)
@@ -76,6 +80,14 @@ public class Doctor implements UserDetails {
         return this;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public Doctor setTests(List<Test> tests) {
         this.tests = tests;
         return this;
@@ -88,7 +100,9 @@ public class Doctor implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        GrantedAuthority authority = new SimpleGrantedAuthority(getRole());
+        List<GrantedAuthority> list = List.of(authority);
+        return list;
     }
 
     @Override

@@ -15,7 +15,6 @@ public class Department {
 
     private String name;
 
-    private Double expense;
 
     @Column(name = "max_booking")
     private Integer maxBooking;

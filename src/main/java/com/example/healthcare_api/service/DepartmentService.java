@@ -30,7 +30,6 @@ public class DepartmentService {
     public Department createDepartment(DepartmentDTO request, MultipartFile file) throws IOException {
         Department department = new Department();
         department.setName(request.getName());
-        department.setExpense(request.getExpense());
         department.setMaxBooking(request.getMaxBooking());
         department.setDescription(request.getDescription());
 
@@ -50,7 +49,6 @@ public class DepartmentService {
         if (departmentOptional.isPresent()) {
             Department department = departmentOptional.get();
             department.setName(request.getName());
-            department.setExpense(request.getExpense());
             department.setMaxBooking(request.getMaxBooking());
             department.setDescription(request.getDescription());
 

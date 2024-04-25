@@ -8,7 +8,6 @@ public class DepartmentDTO {
     private Long id;
     @Size(min = 3,message = "Department's name must be at least 3 characters")
     private String name;
-    private Double expense;
     private Integer maxBooking;
     private String description;
     private String thumbnail;

@@ -6,6 +6,7 @@ import com.example.healthcare_api.entities.Admin;
 import com.example.healthcare_api.service.AdminService;
 import com.example.healthcare_api.service.JwtService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v3/admin")
+@RequestMapping("/api/v3/auth/admin")
 public class AdminController {
     private final AdminService adminService;
     private final JwtService jwtService;
@@ -23,6 +24,7 @@ public class AdminController {
         this.jwtService = jwtService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public List<Admin> getAllAdmin(){
         return adminService.getAll();

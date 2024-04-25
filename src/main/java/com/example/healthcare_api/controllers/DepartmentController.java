@@ -5,6 +5,7 @@ import com.example.healthcare_api.entities.Department;
 import com.example.healthcare_api.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,20 +20,20 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
+
     @GetMapping()
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public List<Department> getAll(){
         return departmentService.getAll();
     }
 
     @PostMapping(consumes = {"multipart/form-data"})
     public Department createDepartment(@RequestParam("name") String name,
-                                       @RequestParam("expense") Double expense,
                                        @RequestParam("maxBooking") Integer maxBooking,
                                        @RequestParam("description") String description,
                                        @RequestParam("thumbnail") MultipartFile file) {
         DepartmentDTO request = new DepartmentDTO();
         request.setName(name);
-        request.setExpense(expense);
         request.setMaxBooking(maxBooking);
         request.setDescription(description);
 
@@ -47,13 +48,11 @@ public class DepartmentController {
     @PutMapping(value = "/{id}", consumes = {"multipart/form-data"})
     public Department updateDepartment(@PathVariable Long id,
                                        @RequestParam("name") String name,
-                                       @RequestParam("expense") Double expense,
                                        @RequestParam("maxBooking") Integer maxBooking,
                                        @RequestParam("description") String description,
                                        @RequestParam(value = "thumbnail", required = false) MultipartFile file) {
         DepartmentDTO request = new DepartmentDTO();
         request.setName(name);
-        request.setExpense(expense);
         request.setMaxBooking(maxBooking);
         request.setDescription(description);
 

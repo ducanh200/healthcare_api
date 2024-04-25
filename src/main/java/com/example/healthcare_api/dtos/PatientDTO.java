@@ -20,5 +20,6 @@ public class PatientDTO {
     private String phonenumber;
     private String address;
     private String city;
+    private String role;
 
 }

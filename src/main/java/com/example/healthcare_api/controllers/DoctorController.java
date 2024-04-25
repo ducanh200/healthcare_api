@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v3/doctors")
+@RequestMapping("/api/v3/auth/doctors")
 public class DoctorController {
 
     private final DoctorService doctorService;
