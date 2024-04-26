@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v3/auth/admin")
+@RequestMapping("/api/v3/admin")
 public class AdminController {
     private final AdminService adminService;
     private final JwtService jwtService;
