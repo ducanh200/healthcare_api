@@ -144,6 +144,30 @@ public class BookingService {
             throw new RuntimeException("Booking not found with ID: " + id);
         }
     }
+
+    public BookingDTO cancelBooking(Long id) {
+        Optional<Booking> bookingOptional = bookingRespository.findById(id);
+        if (bookingOptional.isPresent()) {
+            Booking booking = bookingOptional.get();
+
+            booking.setStatus(6);
+
+            Booking updatedBooking = bookingRespository.save(booking);
+
+            BookingDTO updatedBookingDTO = new BookingDTO();
+            updatedBookingDTO.setId(updatedBooking.getId());
+            updatedBookingDTO.setBookingAt(updatedBooking.getBookingAt());
+            updatedBookingDTO.setStatus(updatedBooking.getStatus());
+            updatedBookingDTO.setDate(updatedBooking.getDate());
+            updatedBookingDTO.setPatientId(updatedBooking.getPatient().getId());
+            updatedBookingDTO.setDepartmentId(updatedBooking.getDepartment().getId());
+            updatedBookingDTO.setShiftId(updatedBooking.getShift().getId());
+
+            return updatedBookingDTO;
+        } else {
+            throw new RuntimeException("Booking not found with ID: " + id);
+        }
+    }
     public BookingDTO getById(Long id) {
         Optional<Booking> bookingOptional = bookingRespository.findById(id);
         if (bookingOptional.isPresent()) {
