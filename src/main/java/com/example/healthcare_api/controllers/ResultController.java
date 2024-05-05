@@ -22,4 +22,9 @@ public class ResultController {
     public ResultDTO createResult(@RequestBody ResultDTO request){
         return resultService.createResult(request);
     }
+
+    @GetMapping("/findById/{id}")
+    public ResultDTO findById(@PathVariable Long id){
+        return resultService.getById(id);
+    }
 }

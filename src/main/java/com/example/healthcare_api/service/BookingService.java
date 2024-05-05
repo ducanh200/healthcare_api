@@ -214,4 +214,60 @@ public class BookingService {
             return null;
         }
     }
+
+    public List<BookingDTO> getByPatientId(Long id){
+        List<Booking> list = bookingRespository.findByPatientId(id);
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        List<BookingDTO> bookingDTOs = new ArrayList<>();
+
+        // 4. Iterate through each booking and create a BookingDTO:
+        for (Booking booking : list) {
+            // Inline DTO creation:
+            BookingDTO bookingDTO = new BookingDTO();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setStatus(booking.getStatus());
+
+            // Populate PatientDTO, DepartmentDTO, and ShiftDTO (with error handling):
+            Patient patient = booking.getPatient();
+            if (patient != null) {
+                PatientDTO patientDTO = new PatientDTO();
+                patientDTO.setId(patient.getId());
+                patientDTO.setName(patient.getName());
+                patientDTO.setEmail(patient.getEmail());
+                patientDTO.setBirthday(patient.getBirthday());
+                patientDTO.setGender(patient.getGender());
+                patientDTO.setCity(patient.getCity());
+                patientDTO.setPhonenumber(patient.getPhonenumber());
+                patientDTO.setAddress(patient.getAddress());
+                bookingDTO.setPatient(patientDTO);
+            }
+
+            Department department = booking.getDepartment();
+            if (department != null) {
+                DepartmentDTO departmentDTO = new DepartmentDTO();
+                departmentDTO.setId(department.getId());
+                departmentDTO.setName(department.getName());
+                departmentDTO.setMaxBooking(department.getMaxBooking());
+                bookingDTO.setDepartment(departmentDTO);
+            }
+
+            Shift shift = booking.getShift();
+            if (shift != null) {
+                ShiftDTO shiftDTO = new ShiftDTO();
+                shiftDTO.setId(shift.getId());
+                shiftDTO.setTime(shift.getTime());
+                shiftDTO.setSession(shift.getSession());
+                bookingDTO.setShift(shiftDTO);
+            }
+
+            // Add the BookingDTO to the list:
+            bookingDTOs.add(bookingDTO);
+        }
+        return bookingDTOs;
+    }
 }

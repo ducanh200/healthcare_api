@@ -91,4 +91,39 @@ public class ResultService {
 
         return resultDTO;
     }
+    public ResultDTO getById(Long id) {
+        // Tìm kết quả theo id
+        Result result = resultRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Result not found with id: " + id));
+
+        // Tạo DTO từ kết quả đã tìm thấy
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setId(result.getId());
+        resultDTO.setRequestTest(result.getRequestTest());
+        resultDTO.setExpense(result.getExpense());
+        resultDTO.setDiagnoseEnd(result.getDiagnoseEnd());
+        resultDTO.setBookingId(result.getBooking().getId());
+        resultDTO.setDoctorId(result.getDoctor().getId());
+
+        BookingDTO bookingDTO = new BookingDTO();
+        Booking booking = result.getBooking();
+        bookingDTO.setId(booking.getId());
+        bookingDTO.setDate(booking.getDate());
+        bookingDTO.setStatus(booking.getStatus());
+        bookingDTO.setBookingAt(booking.getBookingAt());
+        bookingDTO.setDepartmentId(booking.getDepartment().getId());
+        bookingDTO.setPatientId(booking.getPatient().getId());
+        bookingDTO.setShiftId(booking.getShift().getId());
+        resultDTO.setBooking(bookingDTO);
+
+        DoctorDTO doctorDTO = new DoctorDTO();
+        Doctor doctor = result.getDoctor();
+        doctorDTO.setId(doctor.getId());
+        doctorDTO.setName(doctor.getName());
+        doctorDTO.setPhonenumber(doctor.getPhonenumber());
+        doctorDTO.setDepartmentId(doctor.getDepartment().getId());
+        resultDTO.setDoctor(doctorDTO);
+
+        return resultDTO;
+    }
 }
