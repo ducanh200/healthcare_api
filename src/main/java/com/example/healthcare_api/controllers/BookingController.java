@@ -26,8 +26,19 @@ public class BookingController {
     public BookingDTO updateStatus(@PathVariable Long id){
         return bookingService.updateStatus(id);
     }
+
+    @CrossOrigin(origins = "*")
+    @PutMapping("/cancelBooking/{id}")
+    public BookingDTO cancelBooking(@PathVariable Long id){
+        return bookingService.cancelBooking(id);
+    }
     @GetMapping("/{id}")
     public BookingDTO getBookingById(@PathVariable Long id){
         return bookingService.getById(id);
+    }
+
+    @GetMapping("getByPatientId/{id}")
+    public List<BookingDTO> getByPatientId(@PathVariable Long id){
+        return bookingService.getByPatientId(id);
     }
 }

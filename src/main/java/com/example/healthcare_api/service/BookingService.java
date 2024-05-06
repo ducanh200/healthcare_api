@@ -144,6 +144,30 @@ public class BookingService {
             throw new RuntimeException("Booking not found with ID: " + id);
         }
     }
+
+    public BookingDTO cancelBooking(Long id) {
+        Optional<Booking> bookingOptional = bookingRespository.findById(id);
+        if (bookingOptional.isPresent()) {
+            Booking booking = bookingOptional.get();
+
+            booking.setStatus(6);
+
+            Booking updatedBooking = bookingRespository.save(booking);
+
+            BookingDTO updatedBookingDTO = new BookingDTO();
+            updatedBookingDTO.setId(updatedBooking.getId());
+            updatedBookingDTO.setBookingAt(updatedBooking.getBookingAt());
+            updatedBookingDTO.setStatus(updatedBooking.getStatus());
+            updatedBookingDTO.setDate(updatedBooking.getDate());
+            updatedBookingDTO.setPatientId(updatedBooking.getPatient().getId());
+            updatedBookingDTO.setDepartmentId(updatedBooking.getDepartment().getId());
+            updatedBookingDTO.setShiftId(updatedBooking.getShift().getId());
+
+            return updatedBookingDTO;
+        } else {
+            throw new RuntimeException("Booking not found with ID: " + id);
+        }
+    }
     public BookingDTO getById(Long id) {
         Optional<Booking> bookingOptional = bookingRespository.findById(id);
         if (bookingOptional.isPresent()) {
@@ -189,5 +213,61 @@ public class BookingService {
             // Ví dụ: có thể ném một ngoại lệ, hoặc trả về null hoặc một đối tượng BookingDTO trống, tùy thuộc vào yêu cầu của ứng dụng của bạn
             return null;
         }
+    }
+
+    public List<BookingDTO> getByPatientId(Long id){
+        List<Booking> list = bookingRespository.findByPatientId(id);
+        if (list.isEmpty()) {
+            return null;
+        }
+
+        List<BookingDTO> bookingDTOs = new ArrayList<>();
+
+        // 4. Iterate through each booking and create a BookingDTO:
+        for (Booking booking : list) {
+            // Inline DTO creation:
+            BookingDTO bookingDTO = new BookingDTO();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setStatus(booking.getStatus());
+
+            // Populate PatientDTO, DepartmentDTO, and ShiftDTO (with error handling):
+            Patient patient = booking.getPatient();
+            if (patient != null) {
+                PatientDTO patientDTO = new PatientDTO();
+                patientDTO.setId(patient.getId());
+                patientDTO.setName(patient.getName());
+                patientDTO.setEmail(patient.getEmail());
+                patientDTO.setBirthday(patient.getBirthday());
+                patientDTO.setGender(patient.getGender());
+                patientDTO.setCity(patient.getCity());
+                patientDTO.setPhonenumber(patient.getPhonenumber());
+                patientDTO.setAddress(patient.getAddress());
+                bookingDTO.setPatient(patientDTO);
+            }
+
+            Department department = booking.getDepartment();
+            if (department != null) {
+                DepartmentDTO departmentDTO = new DepartmentDTO();
+                departmentDTO.setId(department.getId());
+                departmentDTO.setName(department.getName());
+                departmentDTO.setMaxBooking(department.getMaxBooking());
+                bookingDTO.setDepartment(departmentDTO);
+            }
+
+            Shift shift = booking.getShift();
+            if (shift != null) {
+                ShiftDTO shiftDTO = new ShiftDTO();
+                shiftDTO.setId(shift.getId());
+                shiftDTO.setTime(shift.getTime());
+                shiftDTO.setSession(shift.getSession());
+                bookingDTO.setShift(shiftDTO);
+            }
+
+            // Add the BookingDTO to the list:
+            bookingDTOs.add(bookingDTO);
+        }
+        return bookingDTOs;
     }
 }
