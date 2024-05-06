@@ -27,4 +27,8 @@ public class ResultController {
     public ResultDTO findById(@PathVariable Long id){
         return resultService.getById(id);
     }
+    @PutMapping("/{id}")
+    public ResultDTO update(@PathVariable Long id, @RequestBody ResultDTO request){
+        return resultService.updateResult(id,request);
+    }
 }

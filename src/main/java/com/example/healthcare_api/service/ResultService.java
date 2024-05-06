@@ -3,11 +3,10 @@ package com.example.healthcare_api.service;
 import com.example.healthcare_api.dtos.BookingDTO;
 import com.example.healthcare_api.dtos.DoctorDTO;
 import com.example.healthcare_api.dtos.ResultDTO;
-import com.example.healthcare_api.entities.Booking;
-import com.example.healthcare_api.entities.Doctor;
-import com.example.healthcare_api.entities.Result;
+import com.example.healthcare_api.entities.*;
 import com.example.healthcare_api.repositories.BookingRepository;
 import com.example.healthcare_api.repositories.DoctorRepository;
+import com.example.healthcare_api.repositories.MedicineRepository;
 import com.example.healthcare_api.repositories.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ResultService {
@@ -24,6 +25,8 @@ public class ResultService {
     private BookingRepository bookingRepository;
     @Autowired
     private DoctorRepository doctorRepository;
+    @Autowired
+    private MedicineRepository medicineRepository;
 
 
     public List<ResultDTO> getAllResults() {
@@ -75,7 +78,9 @@ public class ResultService {
 
         // Tạo một đối tượng Result mới
         Result result = new Result();
+        result.setRequestTest(request.getRequestTest());
         result.setExpense(request.getExpense());
+        result.setDiagnoseEnd(request.getDiagnoseEnd());
         result.setBooking(booking);
         result.setDoctor(doctor);
 
@@ -118,6 +123,50 @@ public class ResultService {
 
         DoctorDTO doctorDTO = new DoctorDTO();
         Doctor doctor = result.getDoctor();
+        doctorDTO.setId(doctor.getId());
+        doctorDTO.setName(doctor.getName());
+        doctorDTO.setPhonenumber(doctor.getPhonenumber());
+        doctorDTO.setDepartmentId(doctor.getDepartment().getId());
+        resultDTO.setDoctor(doctorDTO);
+
+        return resultDTO;
+    }
+    public ResultDTO updateResult(Long id, ResultDTO request) {
+        // Tìm kết quả cần cập nhật
+        Result resultToUpdate = resultRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Result not found with id: " + id));
+
+
+        // Cập nhật thông tin của kết quả
+        resultToUpdate.setRequestTest(request.getRequestTest());
+        resultToUpdate.setExpense(request.getExpense());
+        resultToUpdate.setDiagnoseEnd(request.getDiagnoseEnd());
+
+        // Lưu kết quả đã cập nhật vào cơ sở dữ liệu
+        Result updatedResult = resultRepository.save(resultToUpdate);
+
+        // Tạo DTO từ kết quả đã cập nhật
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setId(updatedResult.getId());
+        resultDTO.setRequestTest(updatedResult.getRequestTest());
+        resultDTO.setExpense(updatedResult.getExpense());
+        resultDTO.setDiagnoseEnd(updatedResult.getDiagnoseEnd());
+        resultDTO.setBookingId(updatedResult.getBooking().getId());
+        resultDTO.setDoctorId(updatedResult.getDoctor().getId());
+
+        BookingDTO bookingDTO = new BookingDTO();
+        Booking booking = updatedResult.getBooking();
+        bookingDTO.setId(booking.getId());
+        bookingDTO.setDate(booking.getDate());
+        bookingDTO.setStatus(booking.getStatus());
+        bookingDTO.setBookingAt(booking.getBookingAt());
+        bookingDTO.setDepartmentId(booking.getDepartment().getId());
+        bookingDTO.setPatientId(booking.getPatient().getId());
+        bookingDTO.setShiftId(booking.getShift().getId());
+        resultDTO.setBooking(bookingDTO);
+
+        DoctorDTO doctorDTO = new DoctorDTO();
+        Doctor doctor = updatedResult.getDoctor();
         doctorDTO.setId(doctor.getId());
         doctorDTO.setName(doctor.getName());
         doctorDTO.setPhonenumber(doctor.getPhonenumber());

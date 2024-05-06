@@ -15,4 +15,8 @@ public class Medicine {
     private Long id;
 
     private String name;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "medicine")
+    private List<ResultMedicine> resultMedicines;
 }

@@ -32,12 +32,9 @@ public class Result {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    @ManyToMany(targetEntity = Medicine.class,fetch = FetchType.EAGER)
-    @JoinTable(name = "result_medicine",
-            joinColumns = @JoinColumn(name = "result_id "),
-            inverseJoinColumns = @JoinColumn(name = "medicine_id ")
-    )
-    private List<Medicine> medicines;
+    @JsonIgnore
+    @OneToMany(mappedBy = "result")
+    private List<ResultMedicine> resultMedicines;
 
     @JsonIgnore
     @OneToMany(mappedBy = "result")
