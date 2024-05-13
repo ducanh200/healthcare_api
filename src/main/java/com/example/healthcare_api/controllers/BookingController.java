@@ -41,4 +41,9 @@ public class BookingController {
     public List<BookingDTO> getByPatientId(@PathVariable Long id){
         return bookingService.getByPatientId(id);
     }
+
+    @GetMapping("getByDepartmentId/{id}")
+    public List<BookingDTO> getByDepartmentId(@PathVariable Long id){
+        return bookingService.getByDepartmentId(id);
+    }
 }
