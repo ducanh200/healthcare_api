@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -335,6 +336,61 @@ public class BookingService {
         }
 
         // Trả về danh sách các BookingDTO:
+        return bookingDTOs;
+    }
+    public List<BookingDTO> getByDate(Date date) {
+        List<Booking> bookings = bookingRespository.findByDate(date);
+        if (bookings.isEmpty()) {
+            return null;
+        }
+
+        List<BookingDTO> bookingDTOs = new ArrayList<>();
+
+        for (Booking booking : bookings) {
+            BookingDTO bookingDTO = new BookingDTO();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setStatus(booking.getStatus());
+            bookingDTO.setPatientId(booking.getPatient().getId());
+            bookingDTO.setDepartmentId(booking.getDepartment().getId());
+            bookingDTO.setShiftId(booking.getShift().getId());
+
+            Patient patient = booking.getPatient();
+            if (patient != null) {
+                PatientDTO patientDTO = new PatientDTO();
+                patientDTO.setId(patient.getId());
+                patientDTO.setName(patient.getName());
+                patientDTO.setEmail(patient.getEmail());
+                patientDTO.setBirthday(patient.getBirthday());
+                patientDTO.setGender(patient.getGender());
+                patientDTO.setCity(patient.getCity());
+                patientDTO.setPhonenumber(patient.getPhonenumber());
+                patientDTO.setAddress(patient.getAddress());
+                bookingDTO.setPatient(patientDTO);
+            }
+
+            Department department = booking.getDepartment();
+            if (department != null) {
+                DepartmentDTO departmentDTO = new DepartmentDTO();
+                departmentDTO.setId(department.getId());
+                departmentDTO.setName(department.getName());
+                departmentDTO.setMaxBooking(department.getMaxBooking());
+                bookingDTO.setDepartment(departmentDTO);
+            }
+
+            Shift shift = booking.getShift();
+            if (shift != null) {
+                ShiftDTO shiftDTO = new ShiftDTO();
+                shiftDTO.setId(shift.getId());
+                shiftDTO.setTime(shift.getTime());
+                shiftDTO.setSession(shift.getSession());
+                bookingDTO.setShift(shiftDTO);
+            }
+
+            bookingDTOs.add(bookingDTO);
+        }
+
         return bookingDTOs;
     }
 }

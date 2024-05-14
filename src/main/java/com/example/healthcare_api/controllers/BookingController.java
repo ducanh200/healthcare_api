@@ -3,8 +3,10 @@ package com.example.healthcare_api.controllers;
 import com.example.healthcare_api.dtos.BookingDTO;
 import com.example.healthcare_api.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -45,5 +47,11 @@ public class BookingController {
     @GetMapping("getByDepartmentId/{id}")
     public List<BookingDTO> getByDepartmentId(@PathVariable Long id){
         return bookingService.getByDepartmentId(id);
+    }
+
+    //dùng form data
+    @GetMapping("/date")
+    public List<BookingDTO> getBookingsByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
+        return bookingService.getByDate(date);
     }
 }
