@@ -54,4 +54,10 @@ public class BookingController {
     public List<BookingDTO> getBookingsByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date) {
         return bookingService.getByDate(date);
     }
+
+    @GetMapping("/dateRange")
+    public List<BookingDTO> getBookingsByDateRange(@RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                                                   @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+        return bookingService.getByDateRange(startDate, endDate);
+    }
 }

@@ -14,4 +14,5 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
     List<Booking> findByDepartmentId(Long id);
 
     List<Booking> findByDate(Date date);
+    List<Booking> findByDateBetween(Date startDate, Date endDate);
 }

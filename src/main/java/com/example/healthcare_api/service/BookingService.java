@@ -21,11 +21,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
     @Autowired
-    private BookingRepository bookingRespository;
+    private BookingRepository bookingRepository;
 
     @Autowired
     private PatientRepository patientRepository;
@@ -35,7 +36,7 @@ public class BookingService {
     private ShiftRepository shiftRepository;
 
     public List<BookingDTO> getAll(){
-        List<Booking> bookings = bookingRespository.findAll();
+        List<Booking> bookings = bookingRepository.findAll();
         List<BookingDTO> bookingDTOs = new ArrayList<>();
 
         for (Booking booking : bookings) {
@@ -107,7 +108,7 @@ public class BookingService {
                 .orElseThrow(() -> new IllegalArgumentException("Shift not found with id: " + bookingDTO.getShiftId()));
         booking.setShift(shift);
 
-        Booking savedBooking = bookingRespository.save(booking);
+        Booking savedBooking = bookingRepository.save(booking);
 
         BookingDTO savedBookingDTO = new BookingDTO();
         savedBookingDTO.setId(savedBooking.getId());
@@ -122,14 +123,14 @@ public class BookingService {
     }
 
     public BookingDTO updateStatus(Long id) {
-        Optional<Booking> bookingOptional = bookingRespository.findById(id);
+        Optional<Booking> bookingOptional = bookingRepository.findById(id);
         if (bookingOptional.isPresent()) {
             Booking booking = bookingOptional.get();
             int currentStatus = booking.getStatus();
             int newStatus = currentStatus + 1;
             booking.setStatus(newStatus);
 
-            Booking updatedBooking = bookingRespository.save(booking);
+            Booking updatedBooking = bookingRepository.save(booking);
 
             BookingDTO updatedBookingDTO = new BookingDTO();
             updatedBookingDTO.setId(updatedBooking.getId());
@@ -147,13 +148,13 @@ public class BookingService {
     }
 
     public BookingDTO cancelBooking(Long id) {
-        Optional<Booking> bookingOptional = bookingRespository.findById(id);
+        Optional<Booking> bookingOptional = bookingRepository.findById(id);
         if (bookingOptional.isPresent()) {
             Booking booking = bookingOptional.get();
 
             booking.setStatus(6);
 
-            Booking updatedBooking = bookingRespository.save(booking);
+            Booking updatedBooking = bookingRepository.save(booking);
 
             BookingDTO updatedBookingDTO = new BookingDTO();
             updatedBookingDTO.setId(updatedBooking.getId());
@@ -170,7 +171,7 @@ public class BookingService {
         }
     }
     public BookingDTO getById(Long id) {
-        Optional<Booking> bookingOptional = bookingRespository.findById(id);
+        Optional<Booking> bookingOptional = bookingRepository.findById(id);
         if (bookingOptional.isPresent()) {
             Booking booking = bookingOptional.get();
             BookingDTO bookingDTO = new BookingDTO();
@@ -217,7 +218,7 @@ public class BookingService {
     }
 
     public List<BookingDTO> getByPatientId(Long id){
-        List<Booking> list = bookingRespository.findByPatientId(id);
+        List<Booking> list = bookingRepository.findByPatientId(id);
         if (list.isEmpty()) {
             return null;
         }
@@ -274,7 +275,7 @@ public class BookingService {
 
     public List<BookingDTO> getByDepartmentId(Long id) {
         // Tìm tất cả các booking theo departmentId từ repository:
-        List<Booking> bookings = bookingRespository.findByDepartmentId(id);
+        List<Booking> bookings = bookingRepository.findByDepartmentId(id);
 
         // Kiểm tra nếu danh sách rỗng, trả về null hoặc danh sách trống tùy thuộc vào yêu cầu của ứng dụng của bạn.
         if (bookings.isEmpty()) {
@@ -339,7 +340,7 @@ public class BookingService {
         return bookingDTOs;
     }
     public List<BookingDTO> getByDate(Date date) {
-        List<Booking> bookings = bookingRespository.findByDate(date);
+        List<Booking> bookings = bookingRepository.findByDate(date);
         if (bookings.isEmpty()) {
             return null;
         }
@@ -392,5 +393,20 @@ public class BookingService {
         }
 
         return bookingDTOs;
+    }
+
+    public List<BookingDTO> getByDateRange(Date startDate, Date endDate) {
+        List<Booking> bookings = bookingRepository.findByDateBetween(startDate, endDate);
+        return bookings.stream().map(booking -> {
+            BookingDTO bookingDTO = new BookingDTO();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setStatus(booking.getStatus());
+            bookingDTO.setPatientId(booking.getPatient().getId());
+            bookingDTO.setDepartmentId(booking.getDepartment().getId());
+            bookingDTO.setShiftId(booking.getShift().getId());
+            return bookingDTO;
+        }).collect(Collectors.toList());
     }
 }
