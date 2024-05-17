@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -408,5 +410,75 @@ public class BookingService {
             bookingDTO.setShiftId(booking.getShift().getId());
             return bookingDTO;
         }).collect(Collectors.toList());
+    }
+
+    public List<BookingDTO> getByMonthAndCurrentYear(int month) {
+        // Lấy năm hiện tại:
+        int currentYear = LocalDate.now().getYear();
+
+        // Tìm tất cả các booking theo tháng và năm hiện tại từ repository:
+        List<Booking> bookings = bookingRepository.findByMonthAndYear(month, currentYear);
+
+        // Kiểm tra nếu danh sách rỗng, trả về null hoặc danh sách trống tùy thuộc vào yêu cầu của ứng dụng của bạn.
+        if (bookings.isEmpty()) {
+            return null;
+        }
+
+        // Tạo danh sách mới để chứa các đối tượng BookingDTO:
+        List<BookingDTO> bookingDTOs = new ArrayList<>();
+
+        // Lặp qua danh sách các booking và tạo các đối tượng BookingDTO tương ứng:
+        for (Booking booking : bookings) {
+            // Tạo một đối tượng BookingDTO mới:
+            BookingDTO bookingDTO = new BookingDTO();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setStatus(booking.getStatus());
+            bookingDTO.setPatientId(booking.getPatient().getId());
+            bookingDTO.setDepartmentId(booking.getDepartment().getId());
+            bookingDTO.setShiftId(booking.getShift().getId());
+
+            // Lấy thông tin của bệnh nhân từ booking và thiết lập cho BookingDTO:
+            Patient patient = booking.getPatient();
+            if (patient != null) {
+                PatientDTO patientDTO = new PatientDTO();
+                patientDTO.setId(patient.getId());
+                patientDTO.setName(patient.getName());
+                patientDTO.setEmail(patient.getEmail());
+                patientDTO.setBirthday(patient.getBirthday());
+                patientDTO.setGender(patient.getGender());
+                patientDTO.setCity(patient.getCity());
+                patientDTO.setPhonenumber(patient.getPhonenumber());
+                patientDTO.setAddress(patient.getAddress());
+                bookingDTO.setPatient(patientDTO);
+            }
+
+            // Lấy thông tin của phòng ban từ booking và thiết lập cho BookingDTO:
+            Department department = booking.getDepartment();
+            if (department != null) {
+                DepartmentDTO departmentDTO = new DepartmentDTO();
+                departmentDTO.setId(department.getId());
+                departmentDTO.setName(department.getName());
+                departmentDTO.setMaxBooking(department.getMaxBooking());
+                bookingDTO.setDepartment(departmentDTO);
+            }
+
+            // Lấy thông tin của ca làm việc từ booking và thiết lập cho BookingDTO:
+            Shift shift = booking.getShift();
+            if (shift != null) {
+                ShiftDTO shiftDTO = new ShiftDTO();
+                shiftDTO.setId(shift.getId());
+                shiftDTO.setTime(shift.getTime());
+                shiftDTO.setSession(shift.getSession());
+                bookingDTO.setShift(shiftDTO);
+            }
+
+            // Thêm BookingDTO vào danh sách:
+            bookingDTOs.add(bookingDTO);
+        }
+
+        // Trả về danh sách các BookingDTO:
+        return bookingDTOs;
     }
 }

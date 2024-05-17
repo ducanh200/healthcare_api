@@ -60,4 +60,9 @@ public class BookingController {
                                                    @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
         return bookingService.getByDateRange(startDate, endDate);
     }
+
+    @GetMapping("/byMonthAndCurrentYear")
+    public List<BookingDTO> getBookingsByMonthAndCurrentYear(@RequestParam int month) {
+        return bookingService.getByMonthAndCurrentYear(month);
+    }
 }
