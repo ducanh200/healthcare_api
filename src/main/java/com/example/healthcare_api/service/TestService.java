@@ -58,10 +58,13 @@ public class TestService {
     }
 
 
-    public TestDTO createTest(@RequestBody TestDTO testDTO){
+    public TestDTO createTest(@RequestBody TestDTO testDTO, MultipartFile file) throws IOException {
         // Tạo một đối tượng Test mới từ DTO
         Test test = new Test();
         test.setDiagnose(testDTO.getDiagnose());
+        String fileName = file.getOriginalFilename();
+        String filePath =  serverUrl + "/uploads/" + fileName;
+        test.setThumbnail(filePath);
         test.setTestAt(Timestamp.valueOf(LocalDateTime.now()));
         test.setExpense(testDTO.getExpense());
 

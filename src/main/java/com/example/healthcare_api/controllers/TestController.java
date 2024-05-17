@@ -20,11 +20,27 @@ public class TestController {
     public List<TestDTO> getAll(){
         return testService.getAllTests();
     }
-    @PostMapping()
-    public TestDTO createTest( @RequestBody TestDTO testDTO){
-        return testService.createTest(testDTO);
-    }
+    @PostMapping(consumes = {"multipart/form-data"})
+    public TestDTO createTest(@RequestParam("diagnose") String diagnose,
+                              @RequestParam("expense") Double expense,
+                              @RequestParam("deviceId") Long deviceId ,
+                              @RequestParam("doctorId") Long doctorId ,
+                              @RequestParam("resultId") Long resultId ,
+                              @RequestParam("thumbnail") MultipartFile file){
+        TestDTO request = new TestDTO();
+        request.setDiagnose(diagnose);
+        request.setExpense(expense);
+        request.setDeviceId(deviceId);
+        request.setResultId(resultId);
+        request.setDoctorId(doctorId);
 
+        try {
+            return testService.createTest(request, file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     @PutMapping("/{id}")
     public TestDTO updateTest(@PathVariable Long id,
                                               @RequestParam("diagnose") String diagnose,
