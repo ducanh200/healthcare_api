@@ -539,4 +539,170 @@ public class BookingService {
 
         return bookingDTOs;
     }
+
+    public List<BookingDTO> getBookingByStatus2() {
+        List<Booking> bookings = bookingRepository.findByStatus(2);
+        if (bookings.isEmpty()) {
+            return null;
+        }
+
+        List<BookingDTO> bookingDTOs = new ArrayList<>();
+
+        for (Booking booking : bookings) {
+            BookingDTO bookingDTO = new BookingDTO();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setStatus(booking.getStatus());
+            bookingDTO.setPatientId(booking.getPatient().getId());
+            bookingDTO.setDepartmentId(booking.getDepartment().getId());
+            bookingDTO.setShiftId(booking.getShift().getId());
+
+            Patient patient = booking.getPatient();
+            if (patient != null) {
+                PatientDTO patientDTO = new PatientDTO();
+                patientDTO.setId(patient.getId());
+                patientDTO.setName(patient.getName());
+                patientDTO.setEmail(patient.getEmail());
+                patientDTO.setBirthday(patient.getBirthday());
+                patientDTO.setGender(patient.getGender());
+                patientDTO.setCity(patient.getCity());
+                patientDTO.setPhonenumber(patient.getPhonenumber());
+                patientDTO.setAddress(patient.getAddress());
+                bookingDTO.setPatient(patientDTO);
+            }
+
+            Department department = booking.getDepartment();
+            if (department != null) {
+                DepartmentDTO departmentDTO = new DepartmentDTO();
+                departmentDTO.setId(department.getId());
+                departmentDTO.setName(department.getName());
+                departmentDTO.setMaxBooking(department.getMaxBooking());
+                bookingDTO.setDepartment(departmentDTO);
+            }
+
+            Shift shift = booking.getShift();
+            if (shift != null) {
+                ShiftDTO shiftDTO = new ShiftDTO();
+                shiftDTO.setId(shift.getId());
+                shiftDTO.setTime(shift.getTime());
+                shiftDTO.setSession(shift.getSession());
+                bookingDTO.setShift(shiftDTO);
+            }
+
+            bookingDTOs.add(bookingDTO);
+        }
+
+        return bookingDTOs;
+    }
+    public List<BookingDTO> getBookingByStatus3() {
+        List<Booking> bookings = bookingRepository.findByStatus(3);
+        if (bookings.isEmpty()) {
+            return null;
+        }
+
+        List<BookingDTO> bookingDTOs = new ArrayList<>();
+
+        for (Booking booking : bookings) {
+            BookingDTO bookingDTO = new BookingDTO();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setStatus(booking.getStatus());
+            bookingDTO.setPatientId(booking.getPatient().getId());
+            bookingDTO.setDepartmentId(booking.getDepartment().getId());
+            bookingDTO.setShiftId(booking.getShift().getId());
+
+            Patient patient = booking.getPatient();
+            if (patient != null) {
+                PatientDTO patientDTO = new PatientDTO();
+                patientDTO.setId(patient.getId());
+                patientDTO.setName(patient.getName());
+                patientDTO.setEmail(patient.getEmail());
+                patientDTO.setBirthday(patient.getBirthday());
+                patientDTO.setGender(patient.getGender());
+                patientDTO.setCity(patient.getCity());
+                patientDTO.setPhonenumber(patient.getPhonenumber());
+                patientDTO.setAddress(patient.getAddress());
+                bookingDTO.setPatient(patientDTO);
+            }
+
+            Department department = booking.getDepartment();
+            if (department != null) {
+                DepartmentDTO departmentDTO = new DepartmentDTO();
+                departmentDTO.setId(department.getId());
+                departmentDTO.setName(department.getName());
+                departmentDTO.setMaxBooking(department.getMaxBooking());
+                bookingDTO.setDepartment(departmentDTO);
+            }
+
+            Shift shift = booking.getShift();
+            if (shift != null) {
+                ShiftDTO shiftDTO = new ShiftDTO();
+                shiftDTO.setId(shift.getId());
+                shiftDTO.setTime(shift.getTime());
+                shiftDTO.setSession(shift.getSession());
+                bookingDTO.setShift(shiftDTO);
+            }
+
+            bookingDTOs.add(bookingDTO);
+        }
+
+        return bookingDTOs;
+    }
+    public List<BookingDTO> getBookingByStatus4() {
+        List<Booking> bookings = bookingRepository.findByStatus(4);
+        if (bookings.isEmpty()) {
+            return null;
+        }
+
+        List<BookingDTO> bookingDTOs = new ArrayList<>();
+
+        for (Booking booking : bookings) {
+            BookingDTO bookingDTO = new BookingDTO();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setStatus(booking.getStatus());
+            bookingDTO.setPatientId(booking.getPatient().getId());
+            bookingDTO.setDepartmentId(booking.getDepartment().getId());
+            bookingDTO.setShiftId(booking.getShift().getId());
+
+            Patient patient = booking.getPatient();
+            if (patient != null) {
+                PatientDTO patientDTO = new PatientDTO();
+                patientDTO.setId(patient.getId());
+                patientDTO.setName(patient.getName());
+                patientDTO.setEmail(patient.getEmail());
+                patientDTO.setBirthday(patient.getBirthday());
+                patientDTO.setGender(patient.getGender());
+                patientDTO.setCity(patient.getCity());
+                patientDTO.setPhonenumber(patient.getPhonenumber());
+                patientDTO.setAddress(patient.getAddress());
+                bookingDTO.setPatient(patientDTO);
+            }
+
+            Department department = booking.getDepartment();
+            if (department != null) {
+                DepartmentDTO departmentDTO = new DepartmentDTO();
+                departmentDTO.setId(department.getId());
+                departmentDTO.setName(department.getName());
+                departmentDTO.setMaxBooking(department.getMaxBooking());
+                bookingDTO.setDepartment(departmentDTO);
+            }
+
+            Shift shift = booking.getShift();
+            if (shift != null) {
+                ShiftDTO shiftDTO = new ShiftDTO();
+                shiftDTO.setId(shift.getId());
+                shiftDTO.setTime(shift.getTime());
+                shiftDTO.setSession(shift.getSession());
+                bookingDTO.setShift(shiftDTO);
+            }
+
+            bookingDTOs.add(bookingDTO);
+        }
+
+        return bookingDTOs;
+    }
 }

@@ -70,4 +70,16 @@ public class BookingController {
     public List<BookingDTO> getBookingByStatus1(){
         return bookingService.getBookingByStatus1();
     }
+    @GetMapping("/getByStatus_2")
+    public List<BookingDTO> getBookingByStatus2(){
+        return bookingService.getBookingByStatus2();
+    }
+    @GetMapping("/getByStatus_3")
+    public List<BookingDTO> getBookingByStatus3(){
+        return bookingService.getBookingByStatus3();
+    }
+    @GetMapping("/getByStatus_4")
+    public List<BookingDTO> getBookingByStatus4(){
+        return bookingService.getBookingByStatus4();
+    }
 }
