@@ -65,4 +65,9 @@ public class BookingController {
     public List<BookingDTO> getBookingsByMonthAndCurrentYear(@RequestParam int month) {
         return bookingService.getByMonthAndCurrentYear(month);
     }
+
+    @GetMapping("/getByStatus_1")
+    public List<BookingDTO> getBookingByStatus1(){
+        return bookingService.getBookingByStatus1();
+    }
 }

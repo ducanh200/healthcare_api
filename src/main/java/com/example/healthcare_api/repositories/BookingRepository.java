@@ -21,4 +21,7 @@ public interface BookingRepository extends JpaRepository<Booking,Long> {
 
     @Query("SELECT b FROM Booking b WHERE MONTH(b.date) = :month AND YEAR(b.date) = :year")
     List<Booking> findByMonthAndYear(@Param("month") int month, @Param("year") int year);
+
+    List<Booking> findByStatus(int status);
+
 }
