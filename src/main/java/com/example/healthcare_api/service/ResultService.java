@@ -175,4 +175,90 @@ public class ResultService {
 
         return resultDTO;
     }
+
+    public List<ResultDTO> getByBookingSuccess() {
+        List<Result> results = resultRepository.findResultsByBookingStatus();
+
+        if (results.isEmpty()) {
+            throw new IllegalArgumentException("No Result found with Booking status = 4");
+        }
+
+        List<ResultDTO> resultDTOs = new ArrayList<>();
+
+        for (Result result : results) {
+            ResultDTO resultDTO = new ResultDTO();
+            resultDTO.setId(result.getId());
+            resultDTO.setRequestTest(result.getRequestTest());
+            resultDTO.setExpense(result.getExpense());
+            resultDTO.setDiagnoseEnd(result.getDiagnoseEnd());
+            resultDTO.setBookingId(result.getBooking().getId());
+            resultDTO.setDoctorId(result.getDoctor().getId());
+
+            BookingDTO bookingDTO = new BookingDTO();
+            Booking booking = result.getBooking();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setStatus(booking.getStatus());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setDepartmentId(booking.getDepartment().getId());
+            bookingDTO.setPatientId(booking.getPatient().getId());
+            bookingDTO.setShiftId(booking.getShift().getId());
+            resultDTO.setBooking(bookingDTO);
+
+            DoctorDTO doctorDTO = new DoctorDTO();
+            Doctor doctor = result.getDoctor();
+            doctorDTO.setId(doctor.getId());
+            doctorDTO.setName(doctor.getName());
+            doctorDTO.setPhonenumber(doctor.getPhonenumber());
+            doctorDTO.setDepartmentId(doctor.getDepartment().getId());
+            resultDTO.setDoctor(doctorDTO);
+
+            resultDTOs.add(resultDTO);
+        }
+
+        return resultDTOs;
+    }
+
+    public List<ResultDTO> getResultsByBookingId(Long bookingId) {
+        List<Result> results = resultRepository.findByBookingId(bookingId);
+
+        if (results.isEmpty()) {
+            throw new IllegalArgumentException("No Result found with Booking ID = " + bookingId);
+        }
+
+        List<ResultDTO> resultDTOs = new ArrayList<>();
+
+        for (Result result : results) {
+            ResultDTO resultDTO = new ResultDTO();
+            resultDTO.setId(result.getId());
+            resultDTO.setRequestTest(result.getRequestTest());
+            resultDTO.setExpense(result.getExpense());
+            resultDTO.setDiagnoseEnd(result.getDiagnoseEnd());
+            resultDTO.setBookingId(result.getBooking().getId());
+            resultDTO.setDoctorId(result.getDoctor().getId());
+
+            BookingDTO bookingDTO = new BookingDTO();
+            Booking booking = result.getBooking();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setStatus(booking.getStatus());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setDepartmentId(booking.getDepartment().getId());
+            bookingDTO.setPatientId(booking.getPatient().getId());
+            bookingDTO.setShiftId(booking.getShift().getId());
+            resultDTO.setBooking(bookingDTO);
+
+            DoctorDTO doctorDTO = new DoctorDTO();
+            Doctor doctor = result.getDoctor();
+            doctorDTO.setId(doctor.getId());
+            doctorDTO.setName(doctor.getName());
+            doctorDTO.setPhonenumber(doctor.getPhonenumber());
+            doctorDTO.setDepartmentId(doctor.getDepartment().getId());
+            resultDTO.setDoctor(doctorDTO);
+
+            resultDTOs.add(resultDTO);
+        }
+
+        return resultDTOs;
+    }
 }

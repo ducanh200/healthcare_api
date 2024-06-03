@@ -1,6 +1,7 @@
 package com.example.healthcare_api.controllers;
 
 import com.example.healthcare_api.dtos.ResultDTO;
+import com.example.healthcare_api.entities.Result;
 import com.example.healthcare_api.service.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,4 +32,14 @@ public class ResultController {
     public ResultDTO update(@PathVariable Long id, @RequestBody ResultDTO request){
         return resultService.updateResult(id,request);
     }
+    @GetMapping("/bookingSuccess")
+    public List<ResultDTO> getByBookingSuccess() {
+        return resultService.getByBookingSuccess();
+    }
+
+    @GetMapping("/GetByBookingId/{bookingId}")
+    public List<ResultDTO> getResultsByBookingId(@PathVariable Long bookingId) {
+        return resultService.getResultsByBookingId(bookingId);
+    }
+
 }

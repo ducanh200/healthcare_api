@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -430,6 +429,10 @@ public class BookingService {
 
         // Lặp qua danh sách các booking và tạo các đối tượng BookingDTO tương ứng:
         for (Booking booking : bookings) {
+
+            if (booking.getStatus() != 3) {
+                continue;
+            }
             // Tạo một đối tượng BookingDTO mới:
             BookingDTO bookingDTO = new BookingDTO();
             bookingDTO.setId(booking.getId());
