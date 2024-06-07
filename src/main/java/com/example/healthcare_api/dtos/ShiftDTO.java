@@ -9,4 +9,5 @@ public class ShiftDTO {
     private Long id;
     private Time time;
     private String session;
+    private boolean isAvailable;
 }

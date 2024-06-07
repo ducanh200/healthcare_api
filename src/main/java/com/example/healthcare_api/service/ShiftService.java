@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ShiftService {
@@ -59,5 +61,16 @@ public class ShiftService {
             throw new IllegalArgumentException("Không tìm thấy ca làm việc với ID: " + id);
         }
     }
+    public List<ShiftDTO> getAvailableShiftsByDateAndDepartment(Date date, Long departmentId) {
+        List<Shift> availableShifts = shiftRepository.findAvailableShiftsByDateAndDepartment(date, departmentId);
 
+        return availableShifts.stream().map(shift -> {
+            ShiftDTO shiftAvailabilityDTO = new ShiftDTO();
+            shiftAvailabilityDTO.setId(shift.getId());
+            shiftAvailabilityDTO.setTime(shift.getTime());
+            shiftAvailabilityDTO.setSession(shift.getSession());
+            shiftAvailabilityDTO.setAvailable(true); // Những ca làm việc này đều khả dụng
+            return shiftAvailabilityDTO;
+        }).collect(Collectors.toList());
+    }
 }
