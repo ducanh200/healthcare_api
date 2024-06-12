@@ -215,8 +215,8 @@ public class DoctorService {
             doctorDTO.setDepartmentId(doctor.getDepartment().getId());
 
             DepartmentDTO departmentDTO = new DepartmentDTO();
-            departmentDTO.setId(doctor.getId());
-            departmentDTO.setName(doctor.getName());
+            departmentDTO.setId(doctor.getDepartment().getId());
+            departmentDTO.setName(doctor.getDepartment().getName());
             departmentDTO.setDescription(doctor.getDepartment().getDescription());
             departmentDTO.setThumbnail(doctor.getDepartment().getThumbnail());
 
