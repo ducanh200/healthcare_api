@@ -27,13 +27,11 @@ public class TestController {
 
     @PutMapping("/{id}")
     public TestDTO updateTest(@PathVariable Long id,
-                              @RequestParam("diagnose") String diagnose,
                               @RequestParam("expense") Double expense,
                               @RequestParam("deviceId") Long deviceId,
                               @RequestParam("resultId") Long resultId,
                               @RequestParam(value = "thumbnail", required = false) MultipartFile file) {
         TestDTO request = new TestDTO();
-        request.setDiagnose(diagnose);
         request.setExpense(expense);
         request.setDeviceId(deviceId);
         request.setResultId(resultId);
