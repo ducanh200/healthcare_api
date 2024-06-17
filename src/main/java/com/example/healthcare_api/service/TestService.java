@@ -103,9 +103,6 @@ public class TestService {
         Test testToUpdate = testRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Test not found with id: " + id));
 
-        // Cập nhật thông tin của test
-        testToUpdate.setDiagnose(request.getDiagnose());
-
         // Kiểm tra xem file mới có được cung cấp không và có rỗng không
         if (file != null && !file.isEmpty()) {
             String fileName = file.getOriginalFilename();
