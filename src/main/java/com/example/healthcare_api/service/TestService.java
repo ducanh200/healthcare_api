@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -112,14 +115,15 @@ public class TestService {
         Test testToUpdate = testRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Test not found with id: " + id));
 
-        // Cập nhật thông tin của test
-        testToUpdate.setDiagnose(request.getDiagnose());
-
         // Kiểm tra xem file mới có được cung cấp không và có rỗng không
         if (file != null && !file.isEmpty()) {
             String fileName = file.getOriginalFilename();
             String filePath =  serverUrl + "/uploads/" + fileName;
             testToUpdate.setThumbnail(filePath);
+
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get("uploads/" + fileName); // Đường dẫn thư mục uploads
+            Files.write(path, bytes);
         }
 
         testToUpdate.setTestAt(Timestamp.valueOf(LocalDateTime.now()));
@@ -134,6 +138,7 @@ public class TestService {
         Result result = resultRepository.findById(request.getResultId())
                 .orElseThrow(() -> new IllegalArgumentException("Result not found with id: " + request.getResultId()));
         testToUpdate.setResult(result);
+
 
         // Lưu test đã cập nhật vào cơ sở dữ liệu
         Test updatedTest = testRepository.save(testToUpdate);

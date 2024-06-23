@@ -3,8 +3,10 @@ package com.example.healthcare_api.controllers;
 import com.example.healthcare_api.dtos.ShiftDTO;
 import com.example.healthcare_api.service.ShiftService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -26,5 +28,9 @@ public class ShiftController {
     @GetMapping("/{id}")
     public ShiftDTO getById(@PathVariable Long id){
         return shiftService.getShiftById(id);
+    }
+    @GetMapping("/available")
+    public List<ShiftDTO> getAvailableShifts(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @RequestParam("departmentId") Long departmentId) {
+        return shiftService.getAvailableShiftsByDateAndDepartment(date, departmentId);
     }
 }

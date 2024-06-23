@@ -13,7 +13,6 @@ public class PatientDTO {
     private String name;
     private String email;
     @Size(min = 6,message = "Password must be at least 6 characters")
-
     private String password;
     private String gender;
     private Date birthday;
