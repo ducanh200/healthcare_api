@@ -32,4 +32,8 @@ public class ResultMedicineController {
     public List<ResultMedicineDTO> getByResultId(@PathVariable Long resultId){
         return resultMedicineService.getByResultId(resultId);
     }
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        resultMedicineService.delete(id);
+    }
 }
