@@ -17,7 +17,7 @@ public class Shift {
 
     private Time time;
     private String session;
-    private boolean isAvailable;
+    private int status;
     @JsonIgnore
     @OneToMany(mappedBy = "shift")
     private List<Booking> bookings;

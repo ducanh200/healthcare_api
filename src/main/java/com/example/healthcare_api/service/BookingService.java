@@ -83,7 +83,7 @@ public class BookingService {
 
             bookingDTO.setShift(shiftDTO);
 
-            bookingDTOs.add(bookingDTO);
+            bookingDTOs.add(0,bookingDTO);
         }
 
         return bookingDTOs;
@@ -270,7 +270,7 @@ public class BookingService {
             }
 
             // Add the BookingDTO to the list:
-            bookingDTOs.add(bookingDTO);
+            bookingDTOs.add(0,bookingDTO);
         }
         return bookingDTOs;
     }

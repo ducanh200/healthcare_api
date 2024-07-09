@@ -1,10 +1,9 @@
 package com.example.healthcare_api.service;
 
+import com.example.healthcare_api.dtos.DeviceDTO;
+import com.example.healthcare_api.dtos.ShiftDTO;
 import com.example.healthcare_api.dtos.TestDTO;
-import com.example.healthcare_api.entities.Device;
-import com.example.healthcare_api.entities.Doctor;
-import com.example.healthcare_api.entities.Result;
-import com.example.healthcare_api.entities.Test;
+import com.example.healthcare_api.entities.*;
 import com.example.healthcare_api.repositories.DeviceRepository;
 import com.example.healthcare_api.repositories.DoctorRepository;
 import com.example.healthcare_api.repositories.ResultRepository;
@@ -53,6 +52,16 @@ public class TestService {
             testDTO.setDoctorId(test.getDoctor().getId());
             testDTO.setDeviceId(test.getDevice().getId());
             testDTO.setResultId(test.getResult().getId());
+
+            Device device = test.getDevice();
+            DeviceDTO deviceDTO = new DeviceDTO();
+            deviceDTO.setId(device.getId());
+            deviceDTO.setName(device.getName());
+            deviceDTO.setDescription(device.getDescription());
+            deviceDTO.setExpense(device.getExpense());
+            deviceDTO.setDepartmentId(device.getDepartment().getId());
+
+            testDTO.setDevice(deviceDTO);
 
             testDTOs.add(testDTO);
         });
@@ -163,6 +172,15 @@ public class TestService {
         testDTO.setDeviceId(test.getDevice().getId());
         testDTO.setResultId(test.getResult().getId());
 
+        Device device = test.getDevice();
+        DeviceDTO deviceDTO = new DeviceDTO();
+        deviceDTO.setId(device.getId());
+        deviceDTO.setName(device.getName());
+        deviceDTO.setDescription(device.getDescription());
+        deviceDTO.setExpense(device.getExpense());
+        deviceDTO.setDepartmentId(device.getDepartment().getId());
+
+        testDTO.setDevice(deviceDTO);
 
         return testDTO;
     }

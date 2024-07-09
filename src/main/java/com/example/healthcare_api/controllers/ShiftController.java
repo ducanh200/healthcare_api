@@ -31,6 +31,6 @@ public class ShiftController {
     }
     @GetMapping("/available")
     public List<ShiftDTO> getAvailableShifts(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @RequestParam("departmentId") Long departmentId) {
-        return shiftService.getAvailableShiftsByDateAndDepartment(date, departmentId);
+        return shiftService.getShiftsByDateAndDepartment(date, departmentId);
     }
 }
