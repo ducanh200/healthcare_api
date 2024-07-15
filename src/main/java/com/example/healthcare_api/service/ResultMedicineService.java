@@ -30,6 +30,7 @@ public class ResultMedicineService {
 
         for (ResultMedicine resultMedicine : resultMedicines) {
             ResultMedicineDTO resultMedicineDTO = new ResultMedicineDTO();
+            resultMedicineDTO.setId(resultMedicine.getId());
             resultMedicineDTO.setResultId(resultMedicine.getResult().getId());
             resultMedicineDTO.setMedicineId(resultMedicine.getMedicine().getId());
             resultMedicineDTO.setQuantity(resultMedicine.getQuantity());
@@ -124,6 +125,7 @@ public class ResultMedicineService {
 
         for (ResultMedicine resultMedicine : resultMedicines) {
             ResultMedicineDTO resultMedicineDTO = new ResultMedicineDTO();
+            resultMedicineDTO.setId(resultMedicine.getId());
             resultMedicineDTO.setResultId(resultMedicine.getResult().getId());
             resultMedicineDTO.setMedicineId(resultMedicine.getMedicine().getId());
             resultMedicineDTO.setQuantity(resultMedicine.getQuantity());
@@ -147,5 +149,11 @@ public class ResultMedicineService {
         }
 
         return resultMedicineDTOs;
+    }
+    public void delete(Long id) {
+        ResultMedicine resultMedicine = resultMedicineRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ResultMedicine not found with id: " + id));
+
+        resultMedicineRepository.delete(resultMedicine);
     }
 }
