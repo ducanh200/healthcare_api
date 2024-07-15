@@ -87,7 +87,6 @@ public class ShiftService {
             // Đặt status
             if (bookingCount >= maxBooking) {
                 shiftDTO.setStatus(1);
-            } else {
             }
 
             return shiftDTO;
