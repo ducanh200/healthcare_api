@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ResultRepository extends JpaRepository<Result,Long> {
-    @Query("SELECT r FROM Result r JOIN r.booking b WHERE b.status = 3")
+    @Query("SELECT r FROM Result r JOIN r.booking b WHERE b.status = 4")
     List<Result> findResultsByBookingStatus();
 
     List<Result> findByBookingId(Long bookingId);
