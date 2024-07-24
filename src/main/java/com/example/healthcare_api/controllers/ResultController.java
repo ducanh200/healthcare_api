@@ -41,5 +41,8 @@ public class ResultController {
     public List<ResultDTO> getResultsByBookingId(@PathVariable Long bookingId) {
         return resultService.getResultsByBookingId(bookingId);
     }
-
+    @GetMapping("/GetByPatientId/{patientId}")
+    public List<ResultDTO> getResultsByPatientId(@PathVariable Long patientId) {
+        return resultService.getResultsByPatientId(patientId);
+    }
 }
