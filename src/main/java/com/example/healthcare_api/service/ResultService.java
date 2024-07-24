@@ -261,4 +261,47 @@ public class ResultService {
 
         return resultDTOs;
     }
+    public List<ResultDTO> getResultsByPatientId(Long patientId) {
+        List<Result> results = resultRepository.findByPatientId(patientId);
+
+        if (results.isEmpty()) {
+            throw new IllegalArgumentException("No Result found with Patient ID = " + patientId);
+        }
+
+        List<ResultDTO> resultDTOs = new ArrayList<>();
+
+        for (Result result : results) {
+            ResultDTO resultDTO = new ResultDTO();
+            resultDTO.setId(result.getId());
+            resultDTO.setRequestTest(result.getRequestTest());
+            resultDTO.setExpense(result.getExpense());
+            resultDTO.setDiagnoseEnd(result.getDiagnoseEnd());
+            resultDTO.setBookingId(result.getBooking().getId());
+            resultDTO.setDoctorId(result.getDoctor().getId());
+
+            BookingDTO bookingDTO = new BookingDTO();
+            Booking booking = result.getBooking();
+            bookingDTO.setId(booking.getId());
+            bookingDTO.setDate(booking.getDate());
+            bookingDTO.setStatus(booking.getStatus());
+            bookingDTO.setBookingAt(booking.getBookingAt());
+            bookingDTO.setDepartmentId(booking.getDepartment().getId());
+            bookingDTO.setPatientId(booking.getPatient().getId());
+            bookingDTO.setShiftId(booking.getShift().getId());
+            resultDTO.setBooking(bookingDTO);
+
+            DoctorDTO doctorDTO = new DoctorDTO();
+            Doctor doctor = result.getDoctor();
+            doctorDTO.setId(doctor.getId());
+            doctorDTO.setName(doctor.getName());
+            doctorDTO.setPhonenumber(doctor.getPhonenumber());
+            doctorDTO.setDepartmentId(doctor.getDepartment().getId());
+            resultDTO.setDoctor(doctorDTO);
+
+            resultDTOs.add(resultDTO);
+        }
+
+        return resultDTOs;
+    }
 }
+
