@@ -63,13 +63,10 @@ public class ShiftService {
         }
     }
     public List<ShiftDTO> getShiftsByDateAndDepartment(Date date, Long departmentId) {
-        // Lấy danh sách tất cả các Shift
         List<Shift> allShifts = shiftRepository.findAll();
 
-        // Lấy danh sách các Shift đã được đặt lịch cho ngày và phòng ban cụ thể
         List<Booking> bookings = shiftRepository.findByDateAndDepartment(date, departmentId);
 
-        // Lấy maxBooking của phòng ban từ ShiftRepository
         int maxBooking = shiftRepository.findMaxBookingByDepartmentId(departmentId);
 
         return allShifts.stream().map(shift -> {
@@ -78,16 +75,12 @@ public class ShiftService {
             shiftDTO.setTime(shift.getTime());
             shiftDTO.setSession(shift.getSession());
 
-            // Đếm số lượng Booking của Shift hiện tại
             long bookingCount = bookings.stream()
                     .filter(booking -> booking.getShift().getId().equals(shift.getId()))
                     .count();
 
-
-            // Đặt status
             if (bookingCount >= maxBooking) {
                 shiftDTO.setStatus(1);
-            } else {
             }
 
             return shiftDTO;
