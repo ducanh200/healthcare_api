@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ResultMedicineDTO {
+    private Long id;
     private Long resultId;
     private Long medicineId;
     private Integer quantity;
