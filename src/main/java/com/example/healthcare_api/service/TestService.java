@@ -185,48 +185,4 @@ public class TestService {
         return testDTO;
     }
 
-    public TestDTO updateTest(Long id, TestDTO request) {
-        // Tìm test cần cập nhật
-        Test testToUpdate = testRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Test not found with id: " + id));
-
-        // Cập nhật thông tin của test
-        testToUpdate.setDiagnose(request.getDiagnose());
-        testToUpdate.setThumbnail(request.getThumbnail());
-        testToUpdate.setTestAt(Timestamp.valueOf(LocalDateTime.now()));
-        testToUpdate.setExpense(request.getExpense());
-
-        // Tìm và ánh xạ đối tượng Device từ DTO
-        Device device = deviceRepository.findById(request.getDeviceId())
-                .orElseThrow(() -> new IllegalArgumentException("Device not found with id: " + request.getDeviceId()));
-        testToUpdate.setDevice(device);
-
-        // Tìm và ánh xạ đối tượng Doctor từ DTO
-        Doctor doctor = doctorRepository.findById(request.getDoctorId())
-                .orElseThrow(() -> new IllegalArgumentException("Doctor not found with id: " + request.getDoctorId()));
-        testToUpdate.setDoctor(doctor);
-
-        // Tìm và ánh xạ đối tượng Result từ DTO
-        Result result = resultRepository.findById(request.getResultId())
-                .orElseThrow(() -> new IllegalArgumentException("Result not found with id: " + request.getResultId()));
-        testToUpdate.setResult(result);
-
-        // Lưu test đã cập nhật vào cơ sở dữ liệu
-        Test updatedTest = testRepository.save(testToUpdate);
-
-        // Tạo DTO từ test đã cập nhật
-        TestDTO updatedTestDTO = new TestDTO();
-        updatedTestDTO.setId(updatedTest.getId());
-        updatedTestDTO.setDiagnose(updatedTest.getDiagnose());
-        updatedTestDTO.setThumbnail(updatedTest.getThumbnail());
-        updatedTestDTO.setTestAt(updatedTest.getTestAt());
-        updatedTestDTO.setExpense(updatedTest.getExpense());
-        updatedTestDTO.setDoctorId(updatedTest.getDoctor().getId());
-        updatedTestDTO.setDeviceId(updatedTest.getDevice().getId());
-        updatedTestDTO.setResultId(updatedTest.getResult().getId());
-
-        // Thực hiện các thao tác khác nếu cần và set các thông tin vào DTO
-
-        return updatedTestDTO;
-    }
 }
