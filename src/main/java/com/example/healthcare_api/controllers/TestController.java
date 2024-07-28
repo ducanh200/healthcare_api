@@ -48,4 +48,8 @@ public class TestController {
     public TestDTO getById(@PathVariable Long id){
         return testService.getById(id);
     }
+    @GetMapping("/resultId/{resultId}")
+    public List<TestDTO> getTestsByResultId(@PathVariable Long resultId) {
+        return testService.getTestsByResultId(resultId);
+    }
 }

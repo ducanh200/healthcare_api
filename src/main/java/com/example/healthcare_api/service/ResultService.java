@@ -125,6 +125,7 @@ public class ResultService {
         Doctor doctor = result.getDoctor();
         doctorDTO.setId(doctor.getId());
         doctorDTO.setName(doctor.getName());
+        doctorDTO.setEmail(doctor.getEmail());
         doctorDTO.setPhonenumber(doctor.getPhonenumber());
         doctorDTO.setDepartmentId(doctor.getDepartment().getId());
         resultDTO.setDoctor(doctorDTO);
@@ -298,7 +299,7 @@ public class ResultService {
             doctorDTO.setDepartmentId(doctor.getDepartment().getId());
             resultDTO.setDoctor(doctorDTO);
 
-            resultDTOs.add(resultDTO);
+            resultDTOs.add(0,resultDTO);
         }
 
         return resultDTOs;

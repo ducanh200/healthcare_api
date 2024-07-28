@@ -1,6 +1,7 @@
 package com.example.healthcare_api.service;
 
 import com.example.healthcare_api.dtos.DeviceDTO;
+import com.example.healthcare_api.dtos.DoctorDTO;
 import com.example.healthcare_api.dtos.ShiftDTO;
 import com.example.healthcare_api.dtos.TestDTO;
 import com.example.healthcare_api.entities.*;
@@ -62,6 +63,13 @@ public class TestService {
             deviceDTO.setDepartmentId(device.getDepartment().getId());
 
             testDTO.setDevice(deviceDTO);
+            DoctorDTO doctorDTO = new DoctorDTO();
+            Doctor doctor = test.getDoctor();
+            doctorDTO.setId(doctor.getId());
+            doctorDTO.setName(doctor.getName());
+            doctorDTO.setPhonenumber(doctor.getPhonenumber());
+            doctorDTO.setDepartmentId(doctor.getDepartment().getId());
+            testDTO.setDoctor(doctorDTO);
 
             testDTOs.add(testDTO);
         });
@@ -182,6 +190,14 @@ public class TestService {
 
         testDTO.setDevice(deviceDTO);
 
+        DoctorDTO doctorDTO = new DoctorDTO();
+        Doctor doctor = test.getDoctor();
+        doctorDTO.setId(doctor.getId());
+        doctorDTO.setName(doctor.getName());
+        doctorDTO.setPhonenumber(doctor.getPhonenumber());
+        doctorDTO.setDepartmentId(doctor.getDepartment().getId());
+        testDTO.setDoctor(doctorDTO);
+
         return testDTO;
     }
 
@@ -228,5 +244,44 @@ public class TestService {
         // Thực hiện các thao tác khác nếu cần và set các thông tin vào DTO
 
         return updatedTestDTO;
+    }
+    public List<TestDTO> getTestsByResultId(Long resultId) {
+        List<Test> tests = testRepository.findByResultId(resultId);
+        List<TestDTO> testDTOs = new ArrayList<>(tests.size());
+
+        tests.forEach(test -> {
+            TestDTO testDTO = new TestDTO();
+            testDTO.setId(test.getId());
+            testDTO.setDiagnose(test.getDiagnose());
+            testDTO.setThumbnail(test.getThumbnail());
+            testDTO.setTestAt(test.getTestAt());
+            testDTO.setExpense(test.getExpense());
+            testDTO.setDoctorId(test.getDoctor().getId());
+            testDTO.setDeviceId(test.getDevice().getId());
+            testDTO.setResultId(test.getResult().getId());
+
+            Device device = test.getDevice();
+            DeviceDTO deviceDTO = new DeviceDTO();
+            deviceDTO.setId(device.getId());
+            deviceDTO.setName(device.getName());
+            deviceDTO.setDescription(device.getDescription());
+            deviceDTO.setExpense(device.getExpense());
+            deviceDTO.setDepartmentId(device.getDepartment().getId());
+
+            testDTO.setDevice(deviceDTO);
+
+            DoctorDTO doctorDTO = new DoctorDTO();
+            Doctor doctor = test.getDoctor();
+            doctorDTO.setId(doctor.getId());
+            doctorDTO.setName(doctor.getName());
+            doctorDTO.setEmail(doctor.getEmail());
+            doctorDTO.setPhonenumber(doctor.getPhonenumber());
+            doctorDTO.setDepartmentId(doctor.getDepartment().getId());
+            testDTO.setDoctor(doctorDTO);
+
+            testDTOs.add(testDTO);
+        });
+
+        return testDTOs;
     }
 }
