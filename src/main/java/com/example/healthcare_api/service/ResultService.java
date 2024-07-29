@@ -128,7 +128,9 @@ public class ResultService {
         doctorDTO.setEmail(doctor.getEmail());
         doctorDTO.setPhonenumber(doctor.getPhonenumber());
         doctorDTO.setDepartmentId(doctor.getDepartment().getId());
+        doctorDTO.setEmail(doctor.getEmail());
         resultDTO.setDoctor(doctorDTO);
+
 
         return resultDTO;
     }
