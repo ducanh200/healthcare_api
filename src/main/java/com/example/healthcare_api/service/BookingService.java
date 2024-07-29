@@ -405,9 +405,27 @@ public class BookingService {
             bookingDTO.setBookingAt(booking.getBookingAt());
             bookingDTO.setDate(booking.getDate());
             bookingDTO.setStatus(booking.getStatus());
+
             bookingDTO.setPatientId(booking.getPatient().getId());
+            PatientDTO patientDTO = new PatientDTO();
+            patientDTO.setId(booking.getPatient().getId());
+            patientDTO.setName(booking.getPatient().getName());
+            patientDTO.setGender(booking.getPatient().getGender());
+            patientDTO.setPhonenumber(booking.getPatient().getPhonenumber());
+            bookingDTO.setPatient(patientDTO);
+
             bookingDTO.setDepartmentId(booking.getDepartment().getId());
+            DepartmentDTO departmentDTO = new DepartmentDTO();
+            departmentDTO.setId(booking.getDepartment().getId());
+            departmentDTO.setName(booking.getDepartment().getName());
+            bookingDTO.setDepartment(departmentDTO);
+
             bookingDTO.setShiftId(booking.getShift().getId());
+            ShiftDTO shiftDTO = new ShiftDTO();
+            shiftDTO.setId(booking.getShift().getId());
+            shiftDTO.setSession(booking.getShift().getSession());
+            shiftDTO.setTime(booking.getShift().getTime());
+            bookingDTO.setShift(shiftDTO);
             return bookingDTO;
         }).collect(Collectors.toList());
     }
